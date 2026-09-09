@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Manrope", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-void: #050505;
+  --color-void-2: #080808;
+  --color-panel: #0d0d0f;
+  --color-panel-2: #151518;
+  --color-panel-3: #1c1c20;
+  --color-line: #232327;
+
+  --color-ink: #ffffff;
+  --color-ink-dim: #a7a7ad;
+  --color-ink-faint: #77777f;
+
+  --color-signal: #f20a83;
+  --color-signal-2: #ff1493;
+  --color-signal-soft: #f20a8322;
+}
+
+:root {
+  color-scheme: dark;
+  --vh: 1vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-void);
+  scroll-behavior: auto;
+}
+
+html, body {
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+#root {
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: #fff;
+}
+
+a, button {
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.text-glow {
+  text-shadow: 0 0 40px var(--color-signal-soft);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.container-page {
+  width: 100%;
+  max-width: 1560px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 72px);
+}
+
+.line-hair {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-line), transparent);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes droneFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -8px, 0); }
+}
+.drone-float {
+  animation: droneFloat 3.6s ease-in-out infinite;
+}
+
+@keyframes rotorSpin {
+  from { transform: rotate(0deg) scaleY(1); }
+  to { transform: rotate(360deg) scaleY(1); }
+}
+.drone-rotor {
+  animation: rotorSpin 0.4s linear infinite;
+  transform-box: fill-box;
+}
+
+@keyframes dronePanelFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -10px, 0) rotate(0.4deg); }
+}
+.drone-panel-float {
+  animation: dronePanelFloat 5.2s ease-in-out infinite;
+}
+
+@keyframes ledFlicker {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.55; }
+  60% { opacity: 0.95; }
+}
+
+@keyframes droneLightPulse {
+  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 2px #ff1493); }
+  50% { opacity: 1; filter: drop-shadow(0 0 6px #ff1493); }
+}
+.drone-light {
+  animation: droneLightPulse 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drone-float, .drone-rotor, .drone-panel-float, .drone-light {
+    animation: none !important;
+  }
+}
+
+/* Range slider */
+.range-signal {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+}
+.range-signal::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 999px;
+  background: var(--color-signal-2);
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(255, 20, 147, 0.18);
+}
+.range-signal::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-signal-2);
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(255, 20, 147, 0.18);
+}
