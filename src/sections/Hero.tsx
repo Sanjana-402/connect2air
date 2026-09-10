@@ -11,7 +11,6 @@ export default function Hero({ ready }: { ready: boolean }) {
   const subRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const sideRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -28,8 +27,7 @@ export default function Hero({ ready }: { ready: boolean }) {
       )
       .fromTo(subRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, 1.0)
       .fromTo(ctaRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, 1.15)
-      .fromTo(sideRef.current, { opacity: 0 }, { opacity: 1, duration: 0.8 }, 1.2)
-      .fromTo(statsRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.8 }, 1.25);
+      .fromTo(sideRef.current, { opacity: 0 }, { opacity: 1, duration: 0.8 }, 1.2);
   }, [ready]);
 
   useEffect(() => {
@@ -71,14 +69,14 @@ export default function Hero({ ready }: { ready: boolean }) {
         muted
         playsInline
         src={heroVideo}
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[80%_center]"
+        className="pointer-events-none absolute inset-0 hidden h-full w-full scale-125 object-cover object-[80%_center] lg:block"
       />
       <div
         ref={glowRef}
         className="pointer-events-none absolute inset-0 opacity-0"
         style={{
           background:
-            'linear-gradient(90deg, rgba(4,7,14,0.95) 0%, rgba(4,7,14,0.82) 42%, rgba(4,7,14,0.15) 80%), linear-gradient(0deg, rgba(4,7,14,0.76) 0%, transparent 42%, rgba(4,7,14,0.24) 100%)',
+            'linear-gradient(90deg, rgba(4,7,14,0.96) 0%, rgba(4,7,14,0.85) 42%, rgba(4,7,14,0.15) 80%), linear-gradient(0deg, rgba(4,7,14,0.99) 0%, rgba(4,7,14,0.88) 14%, transparent 30%, rgba(4,7,14,0.3) 100%)',
         }}
       />
 
@@ -132,17 +130,6 @@ export default function Hero({ ready }: { ready: boolean }) {
             </span>
             {hero.ctaSecondary}
           </a>
-        </div>
-      </div>
-
-      <div ref={statsRef} className="container-page relative border-t border-white/10 py-6 opacity-0">
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-          {hero.stats.map((s) => (
-            <div key={s.label}>
-              <div className="font-display text-2xl font-bold text-white sm:text-3xl">{s.value}</div>
-              <div className="eyebrow mt-1">{s.label}</div>
-            </div>
-          ))}
         </div>
       </div>
     </section>

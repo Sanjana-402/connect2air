@@ -64,8 +64,8 @@ export default function Services() {
   }, []);
 
   return (
-    <section id="services" ref={sectionRef} className="relative bg-[var(--color-void)] py-28 sm:py-36">
-      <div ref={headingRef} className="container-page mb-16 sm:mb-24">
+    <section id="services" ref={sectionRef} className="relative bg-[var(--color-void)] py-16 sm:py-24">
+      <div ref={headingRef} className="container-page mb-10 sm:mb-14">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
           {/* Left Column: Heading & Tagline */}
           <div className="lg:col-span-5">

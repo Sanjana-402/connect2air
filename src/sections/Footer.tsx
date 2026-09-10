@@ -3,7 +3,7 @@ import { SocialIcon } from '@/components/Icons';
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-white/10 bg-[var(--color-void)] pb-10 pt-16 sm:pt-20">
+    <footer className="relative border-t border-white/10 bg-[var(--color-void)] pb-8 pt-10 sm:pt-14">
       <div className="container-page">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>

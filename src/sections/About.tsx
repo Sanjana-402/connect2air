@@ -5,16 +5,16 @@ export default function About() {
   const ref = useScrollReveal<HTMLDivElement>({ stagger: 0.08 });
 
   return (
-    <section id="about" className="relative bg-[var(--color-void)] py-28 sm:py-36 border-t border-white/10">
+    <section id="about" className="relative bg-[var(--color-void)] py-16 sm:py-24 border-t border-white/10">
       <div className="container-page">
         <div ref={ref} className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
           {/* Left Column: Headline & Parent Company Venture Callout */}
           <div className="lg:col-span-6">
             <div data-reveal className="eyebrow mb-5">{about.eyebrow}</div>
             <h2 data-reveal className="font-display text-4xl font-bold uppercase leading-[1.02] tracking-tight sm:text-6xl text-white">
-              Pioneering aerial
+              Pioneering
               <br />
-              <span className="text-[var(--color-signal-2)] text-glow">display technology.</span>
+              <span className="text-[var(--color-signal-2)] text-glow">aviation technology.</span>
             </h2>
             
             <p data-reveal className="mt-6 text-lg leading-relaxed text-[var(--color-ink-dim)]">

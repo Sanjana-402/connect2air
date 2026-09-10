@@ -76,7 +76,7 @@ export default function PixelField({ progressRef, label = 'CONNECT2AIR', classNa
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isSmall = window.innerWidth < 768;
-    const COUNT = reduced ? 0 : isSmall ? 420 : 900;
+    const COUNT = reduced ? 0 : isSmall ? 600 : 1300;
 
     function build() {
       const w = window.innerWidth;
@@ -100,7 +100,7 @@ export default function PixelField({ progressRef, label = 'CONNECT2AIR', classNa
           wy: wordPoints[i].y,
           dx: Math.random() * w,
           dy: Math.random() * h,
-          size: Math.random() * 1.6 + 0.6,
+          size: Math.random() * 2.4 + 1.1,
           seed: Math.random() * 1000,
           hue: Math.random() < 0.08 ? 'signal' : 'ink',
         });
@@ -144,15 +144,15 @@ export default function PixelField({ progressRef, label = 'CONNECT2AIR', classNa
         } else {
           x = particle.ix + (particle.wx - particle.ix) * formPhase;
           y = particle.iy + (particle.wy - particle.iy) * formPhase;
-          alpha = 0.35 + formPhase * 0.65;
+          alpha = 0.65 + formPhase * 0.35;
         }
 
         x += drift * (1 - formPhase * 0.7);
         y += driftY * (1 - formPhase * 0.7);
 
-        const flicker = 0.75 + Math.sin(time * 3 + particle.seed) * 0.25;
+        const flicker = 0.85 + Math.sin(time * 3 + particle.seed) * 0.15;
         ctx!.globalAlpha = Math.max(0, Math.min(1, alpha * flicker));
-        ctx!.fillStyle = particle.hue === 'signal' ? '#ff1493' : '#ffffff';
+        ctx!.fillStyle = particle.hue === 'signal' ? '#F20A83' : '#FFFFFF';
         ctx!.fillRect(x, y, particle.size, particle.size);
       }
       ctx!.globalAlpha = 1;

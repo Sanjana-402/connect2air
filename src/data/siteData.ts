@@ -20,7 +20,7 @@ export const nav = {
 
 export const about = {
   eyebrow: 'About Connect2Air',
-  headline: 'Pioneering aerial display technology.',
+  headline: 'Pioneering aviation technology.',
   sub: 'Connect2Air is a premier drone LED advertising and aerial light display venture of Connect2Future.',
   description:
     'We turn the open sky into your next advertising canvas — dynamic LED drone displays engineered for live events, concerts, product launches, and high-impact brand activations.',

@@ -40,7 +40,7 @@ export default function FinalCTA() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-[var(--color-void)] py-32 sm:py-44">
+    <section ref={sectionRef} className="relative overflow-hidden bg-[var(--color-void)] py-16 sm:py-24">
       <div
         ref={glowRef}
         className="pointer-events-none absolute left-1/2 top-1/2 h-[50vw] w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"

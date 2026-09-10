@@ -24,9 +24,9 @@ export default function Campaigns() {
   const ref = useScrollReveal<HTMLDivElement>({ stagger: 0.06 });
 
   return (
-    <section id="experiences" className="relative bg-[var(--color-void)] py-28 sm:py-36">
+    <section id="experiences" className="relative bg-[var(--color-void)] py-16 sm:py-24">
       <div className="container-page">
-        <div className="mb-14 sm:mb-20">
+        <div className="mb-8 sm:mb-12">
           <div className="eyebrow mb-5">Experiences</div>
           <h2 className="font-display max-w-xl text-4xl font-bold uppercase leading-[1.02] tracking-tight sm:text-6xl">
             Where your

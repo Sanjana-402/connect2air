@@ -14,7 +14,7 @@ export default function Showreel() {
   };
 
   return (
-    <section className="relative bg-[var(--color-void)] pb-28 sm:pb-36">
+    <section className="relative bg-[var(--color-void)] pb-16 sm:pb-24">
       <div ref={ref} className="container-page">
         <div data-reveal className="mb-10 flex flex-wrap items-end justify-between gap-6">
           <h2 className="font-display max-w-lg text-3xl font-bold uppercase leading-[1.05] tracking-tight sm:text-5xl">

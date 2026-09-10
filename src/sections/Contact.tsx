@@ -34,10 +34,10 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-[var(--color-panel)] py-28 sm:py-36">
+    <section id="contact" className="relative overflow-hidden bg-[var(--color-panel)] py-16 sm:py-24">
       <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-[var(--color-signal)] opacity-[0.07] blur-[120px]" />
       <div className="container-page relative">
-        <div className="mb-14 max-w-2xl sm:mb-20">
+        <div className="mb-8 max-w-2xl sm:mb-12">
           <div className="eyebrow mb-5">Contact</div>
           <h1 className="font-display text-5xl font-bold uppercase leading-[0.98] tracking-tight sm:text-7xl">
             Let&apos;s make an
