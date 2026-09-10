@@ -91,15 +91,6 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <MagneticButton
-              as="a"
-              href="#contact"
-              cursorLabel="Talk"
-              className="hidden rounded-full border border-white/25 px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-white transition-colors hover:border-[var(--color-signal-2)] lg:inline-block"
-            >
-              {nav.cta}
-            </MagneticButton>
-
             <button
               aria-label={open ? 'Close menu' : 'Open menu'}
               aria-expanded={open}
@@ -130,13 +121,6 @@ export default function Navbar() {
             {link.label}
           </a>
         ))}
-        <a
-          href="#contact"
-          onClick={() => setOpen(false)}
-          className="mt-6 inline-block w-fit rounded-full border border-[var(--color-signal-2)] px-6 py-3 font-mono text-xs uppercase tracking-[0.16em] text-white"
-        >
-          {nav.cta}
-        </a>
       </div>
     </>
   );
