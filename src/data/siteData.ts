@@ -151,12 +151,14 @@ export const stats = [
 ];
 
 export const contact = {
-  email: 'hello@connect2air.com',
-  phone: '+91 00000 00000',
-  location: 'Bengaluru, India',
+  email: 'hr@connect2future.com',
+  phone: '+91 90359 99272',
+  location: '',
+  whatsapp: 'https://wa.me/919035999272',
   social: [
-    { label: 'Instagram', href: '#' },
-    { label: 'LinkedIn', href: '#' },
-    { label: 'YouTube', href: '#' },
+    { label: 'Instagram', href: 'https://www.instagram.com/_connect2air?stkn=NnE1NzBsYnNqeTF' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/company/connect2future/' },
+    { label: 'WhatsApp', href: 'https://wa.me/919035999272' },
+    { label: 'Email', href: 'mailto:hr@connect2future.com' },
   ],
 };

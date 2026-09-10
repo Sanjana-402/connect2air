@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from '@/lib/gsap';
 import MagneticButton from '@/components/MagneticButton';
+import { contact } from '@/data/siteData';
+import { WhatsAppIcon } from '@/components/Icons';
 
 export default function FinalCTA() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -38,7 +40,7 @@ export default function FinalCTA() {
   }, []);
 
   return (
-    <section id="contact" ref={sectionRef} className="relative overflow-hidden bg-[var(--color-void)] py-32 sm:py-44">
+    <section ref={sectionRef} className="relative overflow-hidden bg-[var(--color-void)] py-32 sm:py-44">
       <div
         ref={glowRef}
         className="pointer-events-none absolute left-1/2 top-1/2 h-[50vw] w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
@@ -59,17 +61,20 @@ export default function FinalCTA() {
         <div data-reveal className="mt-10 flex flex-wrap items-center justify-center gap-5">
           <MagneticButton
             as="a"
-            href="mailto:hello@connect2air.com"
+            href="#contact"
             cursorLabel="Start"
             className="inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-4 font-mono text-xs uppercase tracking-[0.14em] text-black"
           >
             Start a campaign →
           </MagneticButton>
           <a
-            href="mailto:hello@connect2air.com"
+            href={contact.whatsapp}
+            target="_blank"
+            rel="noreferrer"
             data-cursor="hover"
             className="inline-flex items-center gap-2.5 rounded-full border border-white/25 px-7 py-4 font-mono text-xs uppercase tracking-[0.14em] text-white transition-colors hover:border-[var(--color-signal-2)]"
           >
+            <WhatsAppIcon className="h-4 w-4 fill-current text-[#25D366]" />
             Talk to our team
           </a>
         </div>

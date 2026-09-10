@@ -13,6 +13,7 @@ import Campaigns from '@/sections/Campaigns';
 import Showreel from '@/sections/Showreel';
 import Stats from '@/sections/Stats';
 import FinalCTA from '@/sections/FinalCTA';
+import Contact from '@/sections/Contact';
 import Footer from '@/sections/Footer';
 
 export default function App() {
@@ -45,6 +46,7 @@ export default function App() {
         <Showreel />
         <Stats />
         <FinalCTA />
+        <Contact />
       </main>
 
       <Footer />

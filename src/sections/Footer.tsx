@@ -1,4 +1,5 @@
 import { brand, nav, contact, services } from '@/data/siteData';
+import { SocialIcon } from '@/components/Icons';
 
 export default function Footer() {
   return (
@@ -6,7 +7,7 @@ export default function Footer() {
       <div className="container-page">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <img src={brand.logo} alt={brand.name} className="h-8 w-auto object-contain" />
+            <img src={brand.logo} alt={brand.name} className="h-14 w-auto object-contain" />
             <p className="eyebrow mt-5">{brand.tagline}</p>
           </div>
 
@@ -37,14 +38,30 @@ export default function Footer() {
           <div>
             <div className="eyebrow mb-4">Contact</div>
             <ul className="flex flex-col gap-2.5 text-sm text-[var(--color-ink-dim)]">
-              <li>{contact.email}</li>
-              <li>{contact.phone}</li>
-              <li>{contact.location}</li>
+              <li>
+                <a href={`mailto:${contact.email}`} className="transition-colors hover:text-white">
+                  {contact.email}
+                </a>
+              </li>
+              <li>
+                <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="transition-colors hover:text-white">
+                  {contact.phone}
+                </a>
+              </li>
             </ul>
-            <div className="mt-5 flex gap-4">
+            <div className="mt-5 flex items-center gap-3">
               {contact.social.map((s) => (
-                <a key={s.label} href={s.href} className="text-sm text-[var(--color-ink-dim)] transition-colors hover:text-white">
-                  {s.label}
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                  title={s.label}
+                  data-cursor="hover"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-[var(--color-ink-dim)] transition-colors hover:border-[var(--color-signal-2)] hover:text-white"
+                >
+                  <SocialIcon label={s.label} />
                 </a>
               ))}
             </div>
