@@ -32,7 +32,7 @@ app.use((error, _req, res, _next) => {
 
 async function startServer() {
   if (!process.env.MONGO_URI) {
-    throw new Error('MONGO_URI is missing. Add your MongoDB Atlas connection string to backend/.env.');
+    throw new Error('MONGO_URI is missing. Add your MongoDB Atlas connection string to server/.env.');
   }
 
   await mongoose.connect(process.env.MONGO_URI, {
