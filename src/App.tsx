@@ -7,6 +7,7 @@ import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 
 import Hero from '@/sections/Hero';
 import Statement from '@/sections/Statement';
+import About from '@/sections/About';
 import Services from '@/sections/Services';
 import Process from '@/sections/Process';
 import Campaigns from '@/sections/Campaigns';
@@ -40,6 +41,7 @@ export default function App() {
       <main>
         <Hero ready={heroReady} />
         <Statement />
+        <About />
         <Services />
         <Process />
         <Campaigns />

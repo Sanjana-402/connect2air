@@ -11,16 +11,32 @@ export const brand = {
 export const nav = {
   links: [
     { label: 'Home', href: '#home' },
+    { label: 'About', href: '#about' },
     { label: 'Services', href: '#services' },
     { label: 'Contact', href: '#contact' },
   ],
   cta: 'Get a quote',
 };
 
+export const about = {
+  eyebrow: 'About Connect2Air',
+  headline: 'Pioneering aerial display technology.',
+  sub: 'Connect2Air is a premier drone LED advertising and aerial light display venture of Connect2Future.',
+  description:
+    'We turn the open sky into your next advertising canvas — dynamic LED drone displays engineered for live events, concerts, product launches, and high-impact brand activations.',
+  parentCompany: 'Connect2Future',
+  parentLink: 'https://connect2future.com/',
+  highlights: [
+    { title: 'Synchronized LED Formations', desc: 'Precision drone fleets rendering animated logos and screen content high above venue crowds.' },
+    { title: 'End-to-End Flight Operations', desc: 'From creative aerial choreography to airspace permissions and precision flight execution.' },
+    { title: 'Unmissable Audience Reach', desc: 'Dominating venue skylines clear of billboards and physical advertising clutter.' },
+  ],
+};
+
 export const hero = {
   eyebrow: 'Drone LED displays, for a brighter tomorrow',
-  headlineTop: 'Turn ideas into',
-  headlineAccent: 'skies',
+  headlineTop: 'Turn ideas',
+  headlineAccent: 'into skies',
   sub: 'The open sky, turned into your next advertising canvas — dynamic LED displays with unmissable visibility and real-world attention.',
   ctaPrimary: 'Explore our services',
   ctaSecondary: 'See our work',

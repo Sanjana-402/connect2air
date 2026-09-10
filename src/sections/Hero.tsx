@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { hero } from '@/data/siteData';
 import MagneticButton from '@/components/MagneticButton';
-import heroBackground from '@/images/WhatsApp Image 2026-09-09 at 2.53.09 PM.jpeg';
+import heroVideo from '@/videos/background video.mp4';
 
 export default function Hero({ ready }: { ready: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
@@ -65,17 +65,20 @@ export default function Hero({ ready }: { ready: boolean }) {
 
   return (
     <section id="home" ref={sectionRef} className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--color-void)]">
-      <img
-        src={heroBackground}
-        alt="Drone light show over a city skyline"
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        src={heroVideo}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[80%_center]"
       />
       <div
         ref={glowRef}
         className="pointer-events-none absolute inset-0 opacity-0"
         style={{
           background:
-            'linear-gradient(90deg, rgba(4,7,14,0.94) 0%, rgba(4,7,14,0.76) 36%, rgba(4,7,14,0.18) 72%), linear-gradient(0deg, rgba(4,7,14,0.76) 0%, transparent 42%, rgba(4,7,14,0.24) 100%)',
+            'linear-gradient(90deg, rgba(4,7,14,0.95) 0%, rgba(4,7,14,0.82) 42%, rgba(4,7,14,0.15) 80%), linear-gradient(0deg, rgba(4,7,14,0.76) 0%, transparent 42%, rgba(4,7,14,0.24) 100%)',
         }}
       />
 
@@ -97,7 +100,7 @@ export default function Hero({ ready }: { ready: boolean }) {
           {hero.eyebrow}
         </div>
 
-        <h1 ref={headlineRef} className="font-display max-w-4xl text-[13vw] font-extrabold uppercase leading-[0.92] tracking-tight sm:text-[9vw] lg:text-[6.6vw]">
+        <h1 ref={headlineRef} className="font-display max-w-xl text-[8vw] font-extrabold uppercase leading-[0.94] tracking-tight sm:text-[5vw] lg:text-[3.8vw]">
           <span className="block overflow-hidden">
             <span className="line block">{hero.headlineTop}</span>
           </span>
@@ -106,11 +109,11 @@ export default function Hero({ ready }: { ready: boolean }) {
           </span>
         </h1>
 
-        <p ref={subRef} className="mt-7 max-w-md text-base text-[var(--color-ink-dim)] opacity-0 sm:text-lg">
+        <p ref={subRef} className="mt-6 max-w-md text-base text-[var(--color-ink-dim)] opacity-0 sm:text-lg">
           {hero.sub}
         </p>
 
-        <div ref={ctaRef} className="mt-9 flex flex-wrap items-center gap-5 opacity-0">
+        <div ref={ctaRef} className="mt-8 flex flex-wrap items-center gap-5 opacity-0">
           <MagneticButton
             as="a"
             href="#services"
@@ -130,7 +133,6 @@ export default function Hero({ ready }: { ready: boolean }) {
             {hero.ctaSecondary}
           </a>
         </div>
-
       </div>
 
       <div ref={statsRef} className="container-page relative border-t border-white/10 py-6 opacity-0">
