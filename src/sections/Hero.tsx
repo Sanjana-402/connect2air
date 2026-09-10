@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { hero } from '@/data/siteData';
-import DroneDisplay from '@/components/DroneDisplay';
 import MagneticButton from '@/components/MagneticButton';
+import heroBackground from '@/images/WhatsApp Image 2026-09-09 at 2.53.09 PM.jpeg';
 
 export default function Hero({ ready }: { ready: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
@@ -10,7 +10,6 @@ export default function Hero({ ready }: { ready: boolean }) {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const displayRef = useRef<HTMLDivElement>(null);
   const sideRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
@@ -20,7 +19,6 @@ export default function Hero({ ready }: { ready: boolean }) {
     if (!ready) return;
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     tl.fromTo(glowRef.current, { opacity: 0 }, { opacity: 1, duration: 1.1 }, 0)
-      .fromTo(displayRef.current, { opacity: 0, y: 30, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 1 }, 0.15)
       .fromTo(eyebrowRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6 }, 0.5)
       .fromTo(
         headlineRef.current?.querySelectorAll('.line') ?? [],
@@ -67,18 +65,19 @@ export default function Hero({ ready }: { ready: boolean }) {
 
   return (
     <section id="home" ref={sectionRef} className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--color-void)]">
+      <img
+        src={heroBackground}
+        alt="Drone light show over a city skyline"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+      />
       <div
         ref={glowRef}
         className="pointer-events-none absolute inset-0 opacity-0"
         style={{
           background:
-            'radial-gradient(60% 45% at 50% 32%, rgba(242,10,131,0.14), transparent 70%), radial-gradient(120% 60% at 50% 100%, rgba(255,255,255,0.05), transparent 60%)',
+            'linear-gradient(90deg, rgba(4,7,14,0.94) 0%, rgba(4,7,14,0.76) 36%, rgba(4,7,14,0.18) 72%), linear-gradient(0deg, rgba(4,7,14,0.76) 0%, transparent 42%, rgba(4,7,14,0.24) 100%)',
         }}
       />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.25]" style={{
-        backgroundImage: 'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
-        backgroundSize: '64px 64px',
-      }} />
 
       <div ref={contentRef} className="container-page relative flex flex-1 flex-col justify-center pb-24 pt-32 will-change-transform">
         {/* side vertical labels */}
@@ -121,7 +120,7 @@ export default function Hero({ ready }: { ready: boolean }) {
             {hero.ctaPrimary}
           </MagneticButton>
           <a
-            href="#experience"
+            href="#experiences"
             data-cursor="hover"
             className="inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white"
           >
@@ -132,10 +131,6 @@ export default function Hero({ ready }: { ready: boolean }) {
           </a>
         </div>
 
-        {/* hero drone LED display */}
-        <div ref={displayRef} className="mx-auto mt-16 w-full max-w-3xl opacity-0 sm:mt-20">
-          <DroneDisplay />
-        </div>
       </div>
 
       <div ref={statsRef} className="container-page relative border-t border-white/10 py-6 opacity-0">

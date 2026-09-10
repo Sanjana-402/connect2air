@@ -11,12 +11,7 @@ export const brand = {
 export const nav = {
   links: [
     { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
     { label: 'Services', href: '#services' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Why Connect2Air', href: '#why' },
-    { label: 'Process', href: '#process' },
-    { label: 'Reach', href: '#reach' },
     { label: 'Contact', href: '#contact' },
   ],
   cta: 'Get a quote',
@@ -28,7 +23,7 @@ export const hero = {
   headlineAccent: 'skies',
   sub: 'The open sky, turned into your next advertising canvas — dynamic LED displays with unmissable visibility and real-world attention.',
   ctaPrimary: 'Explore our services',
-  ctaSecondary: 'Watch the experience',
+  ctaSecondary: 'See our work',
   sideLabels: ['Drone LED displays', 'Aerial advertising', 'Live events', 'Brand activations'],
   stats: [
     { value: '100+', label: 'Events' },

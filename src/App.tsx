@@ -8,10 +8,7 @@ import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 import Hero from '@/sections/Hero';
 import Statement from '@/sections/Statement';
 import Services from '@/sections/Services';
-import Why from '@/sections/Why';
-import Experience from '@/sections/Experience';
 import Process from '@/sections/Process';
-import Reach from '@/sections/Reach';
 import Campaigns from '@/sections/Campaigns';
 import Showreel from '@/sections/Showreel';
 import Stats from '@/sections/Stats';
@@ -43,10 +40,7 @@ export default function App() {
         <Hero ready={heroReady} />
         <Statement />
         <Services />
-        <Why />
-        <Experience />
         <Process />
-        <Reach />
         <Campaigns />
         <Showreel />
         <Stats />

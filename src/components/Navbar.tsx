@@ -66,8 +66,8 @@ export default function Navbar() {
         style={{ height: 78 }}
       >
         <div className="container-page flex h-full items-center justify-between">
-          <a href="#home" className="flex items-center gap-2" data-cursor="hover">
-            <img src={brand.logo} alt={brand.name} className="h-8 w-auto object-contain" />
+          <a href="#home" className="flex items-center" data-cursor="hover">
+            <img src={brand.logo} alt={brand.name} className="h-25 w-auto max-w-none object-contain" />
           </a>
 
           <nav className="hidden items-center gap-7 lg:flex">

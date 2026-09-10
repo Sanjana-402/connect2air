@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 const SECTION_IDS = [
-  'home', 'about', 'services', 'why', 'experience', 'process', 'reach', 'experiences', 'contact',
+  'home', 'about', 'services', 'process', 'experiences', 'contact',
 ];
 
 export default function ScrollProgress() {
