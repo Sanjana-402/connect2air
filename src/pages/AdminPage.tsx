@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   getCMSEnquiries,
   deleteCMSEnquiry,
-  getCMSServices,
-  addCMSService,
-  updateCMSService,
-  deleteCMSService,
-  getCMSPricing,
-  addCMSPricing,
-  updateCMSPricing,
-  deleteCMSPricing,
+  getCMSServicesAsync,
+  addCMSServiceAsync,
+  updateCMSServiceAsync,
+  deleteCMSServiceAsync,
+  getCMSPricingAsync,
+  addCMSPricingAsync,
+  updateCMSPricingAsync,
+  deleteCMSPricingAsync,
   getCMSMediaAsync,
   uploadCMSMedia,
   updateCMSMediaMeta,
@@ -130,13 +130,15 @@ export default function AdminPage() {
     localStorage.setItem('c2a_cms_enquiries', JSON.stringify(deduplicatedEnquiries));
     setEnquiries(deduplicatedEnquiries);
 
-    // 2. Services
-    setServices(getCMSServices());
+    // 2. Services (MongoDB Atlas)
+    const servicesItems = await getCMSServicesAsync();
+    setServices(servicesItems);
 
-    // 3. Pricing
-    setPricing(getCMSPricing());
+    // 3. Pricing (MongoDB Atlas)
+    const pricingItems = await getCMSPricingAsync();
+    setPricing(pricingItems);
 
-    // 4. Media Reel (Async IndexedDB)
+    // 4. Media Reel (Cloudinary / MongoDB)
     const mediaItems = await getCMSMediaAsync();
     setMediaList(mediaItems);
   };
@@ -277,18 +279,18 @@ export default function AdminPage() {
   };
 
   // Services Actions
-  const handleSaveService = (e: React.FormEvent) => {
+  const handleSaveService = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!serviceForm.title || !serviceForm.category || !serviceForm.description) {
       alert('Please fill out all service fields.');
       return;
     }
     if (editingService) {
-      updateCMSService(editingService.id, serviceForm);
-      showToast('Service updated successfully.');
+      await updateCMSServiceAsync(editingService.id, serviceForm);
+      showToast('Service updated successfully in MongoDB Atlas.');
     } else {
-      addCMSService(serviceForm);
-      showToast('New Service added to the overlapping cards section.');
+      await addCMSServiceAsync(serviceForm);
+      showToast('New Service added to MongoDB Atlas.');
     }
     setServiceForm({ title: '', category: '', description: '' });
     setEditingService(null);
@@ -304,26 +306,26 @@ export default function AdminPage() {
     });
   };
 
-  const handleDeleteService = (id: string) => {
+  const handleDeleteService = async (id: string) => {
     if (!confirm('Are you sure you want to delete this service card?')) return;
-    deleteCMSService(id);
+    await deleteCMSServiceAsync(id);
     refreshData();
-    showToast('Service card deleted.');
+    showToast('Service card deleted from MongoDB Atlas.');
   };
 
   // Pricing Actions
-  const handleSavePricing = (e: React.FormEvent) => {
+  const handleSavePricing = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!pricingForm.step || !pricingForm.price || !pricingForm.duration) {
       alert('Please fill out Title, Price, and Duration.');
       return;
     }
     if (editingPricing) {
-      updateCMSPricing(editingPricing.id, pricingForm);
-      showToast('Pricing package updated.');
+      await updateCMSPricingAsync(editingPricing.id, pricingForm);
+      showToast('Pricing package updated in MongoDB Atlas.');
     } else {
-      addCMSPricing(pricingForm);
-      showToast('New Pricing package created.');
+      await addCMSPricingAsync(pricingForm);
+      showToast('New Pricing package created in MongoDB Atlas.');
     }
     setPricingForm({
       step: '',
@@ -349,11 +351,11 @@ export default function AdminPage() {
     });
   };
 
-  const handleDeletePricing = (id: string) => {
+  const handleDeletePricing = async (id: string) => {
     if (!confirm('Are you sure you want to delete this pricing package card?')) return;
-    deleteCMSPricing(id);
+    await deleteCMSPricingAsync(id);
     refreshData();
-    showToast('Pricing package deleted.');
+    showToast('Pricing package deleted from MongoDB Atlas.');
   };
 
   const filteredEnquiries = enquiries.filter(

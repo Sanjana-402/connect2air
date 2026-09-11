@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from '@/lib/gsap';
-import { getCMSServices, getCMSPricing, type ServiceItem, type PricingItem } from '@/utils/cmsStorage';
+import {
+  getCMSServices,
+  getCMSPricing,
+  getCMSServicesAsync,
+  getCMSPricingAsync,
+  type ServiceItem,
+  type PricingItem,
+} from '@/utils/cmsStorage';
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -11,14 +18,17 @@ export default function Services() {
   const [pricingList, setPricingList] = useState<PricingItem[]>(getCMSPricing());
   const [selectedPricing, setSelectedPricing] = useState<PricingItem | null>(null);
 
-  // Listen for CMS updates from Admin Page
+  // Load backend MongoDB state & listen for CMS updates from Admin Page
   useEffect(() => {
-    const handleUpdate = () => {
-      setServicesList(getCMSServices());
-      setPricingList(getCMSPricing());
+    const loadData = async () => {
+      const servicesData = await getCMSServicesAsync();
+      const pricingData = await getCMSPricingAsync();
+      setServicesList(servicesData);
+      setPricingList(pricingData);
     };
-    window.addEventListener('c2a_cms_updated', handleUpdate);
-    return () => window.removeEventListener('c2a_cms_updated', handleUpdate);
+    loadData();
+    window.addEventListener('c2a_cms_updated', loadData);
+    return () => window.removeEventListener('c2a_cms_updated', loadData);
   }, []);
 
   // Lock body scroll when pricing modal is active

@@ -4,6 +4,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import contactRoutes from './routes/contactRoutes.js';
 import mediaRoutes from './routes/mediaRoutes.js';
+import pricingRoutes from './routes/pricingRoutes.js';
+import serviceRoutes from './routes/serviceRoutes.js';
 
 const app = express();
 const port = Number(process.env.PORT) || 5000;
@@ -26,6 +28,8 @@ app.get('/health', (_req, res) => {
 
 app.use('/api/contact', contactRoutes);
 app.use('/api/media', mediaRoutes);
+app.use('/api/pricing', pricingRoutes);
+app.use('/api/services', serviceRoutes);
 app.use((_req, res) => res.status(404).json({ message: 'Route not found.' }));
 app.use((error, _req, res, _next) => {
   console.error(error);

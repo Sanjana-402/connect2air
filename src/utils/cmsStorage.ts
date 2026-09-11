@@ -2,6 +2,7 @@ import { services as defaultServices } from '@/data/siteData';
 
 export interface ServiceItem {
   id: string;
+  _id?: string;
   number: string;
   title: string;
   category: string;
@@ -10,6 +11,7 @@ export interface ServiceItem {
 
 export interface PricingItem {
   id: string;
+  _id?: string;
   step: string;
   price: string;
   duration: string;
@@ -175,7 +177,66 @@ export async function deleteCMSMediaItem(id: string): Promise<void> {
 export const getCMSMedia = (): MediaItem[] => [];
 
 
-// SERVICES CRUD
+// --- SERVICES CRUD ---
+export async function getCMSServicesAsync(): Promise<ServiceItem[]> {
+  try {
+    const res = await fetch(`${API_BASE}/api/services`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+      return json.data.map((raw: any) => ({
+        id: raw._id || raw.id,
+        _id: raw._id,
+        number: raw.number,
+        title: raw.title,
+        category: raw.category,
+        description: raw.description,
+      }));
+    }
+    return getCMSServices();
+  } catch (err) {
+    return getCMSServices();
+  }
+}
+
+export async function addCMSServiceAsync(service: Omit<ServiceItem, 'id' | 'number'>): Promise<ServiceItem> {
+  try {
+    const res = await fetch(`${API_BASE}/api/services`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(service),
+    });
+    const json = await res.json();
+    if (res.ok && json.success) {
+      notifyCMSUpdate();
+      return { id: json.data._id, _id: json.data._id, ...json.data };
+    }
+  } catch (e) {}
+  return addCMSService(service)[0];
+}
+
+export async function updateCMSServiceAsync(id: string, serviceData: Partial<ServiceItem>): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/api/services/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(serviceData),
+    });
+    notifyCMSUpdate();
+  } catch (e) {
+    updateCMSService(id, serviceData);
+  }
+}
+
+export async function deleteCMSServiceAsync(id: string): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/api/services/${id}`, { method: 'DELETE' });
+    notifyCMSUpdate();
+  } catch (e) {
+    deleteCMSService(id);
+  }
+}
+
 export const getCMSServices = (): ServiceItem[] => {
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.SERVICES);
@@ -234,7 +295,68 @@ export const deleteCMSService = (id: string) => {
 };
 
 
-// PRICING CRUD
+// --- PRICING CRUD ---
+export async function getCMSPricingAsync(): Promise<PricingItem[]> {
+  try {
+    const res = await fetch(`${API_BASE}/api/pricing`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+      return json.data.map((raw: any) => ({
+        id: raw._id || raw.id,
+        _id: raw._id,
+        step: raw.step,
+        price: raw.price,
+        duration: raw.duration,
+        badge: raw.badge || '',
+        timeline: raw.timeline || '',
+        description: raw.description,
+      }));
+    }
+    return getCMSPricing();
+  } catch (err) {
+    return getCMSPricing();
+  }
+}
+
+export async function addCMSPricingAsync(pkg: Omit<PricingItem, 'id'>): Promise<PricingItem> {
+  try {
+    const res = await fetch(`${API_BASE}/api/pricing`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(pkg),
+    });
+    const json = await res.json();
+    if (res.ok && json.success) {
+      notifyCMSUpdate();
+      return { id: json.data._id, _id: json.data._id, ...json.data };
+    }
+  } catch (e) {}
+  return addCMSPricing(pkg)[0];
+}
+
+export async function updateCMSPricingAsync(id: string, pkgData: Partial<PricingItem>): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/api/pricing/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(pkgData),
+    });
+    notifyCMSUpdate();
+  } catch (e) {
+    updateCMSPricing(id, pkgData);
+  }
+}
+
+export async function deleteCMSPricingAsync(id: string): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/api/pricing/${id}`, { method: 'DELETE' });
+    notifyCMSUpdate();
+  } catch (e) {
+    deleteCMSPricing(id);
+  }
+}
+
 export const getCMSPricing = (): PricingItem[] => {
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.PRICING);
