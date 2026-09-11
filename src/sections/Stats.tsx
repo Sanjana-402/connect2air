@@ -49,7 +49,7 @@ function StatItem({ value, label }: { value: string; label: string }) {
   const display = useCountUp(value, active);
 
   return (
-    <div ref={ref} className="border-t border-white/10 py-3 sm:py-4">
+    <div ref={ref} className="border-t border-white/10 py-3 sm:py-4 text-center flex flex-col items-center justify-center">
       <div className="font-display text-4xl font-extrabold text-white sm:text-6xl">{display}</div>
       <div className="eyebrow mt-2 text-xs text-white/70">{label}</div>
     </div>

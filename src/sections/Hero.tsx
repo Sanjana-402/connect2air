@@ -10,24 +10,21 @@ export default function Hero({ ready }: { ready: boolean }) {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const sideRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!ready) return;
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     tl.fromTo(glowRef.current, { opacity: 0 }, { opacity: 1, duration: 1.1 }, 0)
-      .fromTo(eyebrowRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6 }, 0.5)
+      .fromTo(eyebrowRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6 }, 0.3)
       .fromTo(
         headlineRef.current?.querySelectorAll('.line') ?? [],
         { yPercent: 110 },
         { yPercent: 0, duration: 0.9, stagger: 0.09 },
-        0.65
+        0.5
       )
-      .fromTo(subRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, 1.0)
-      .fromTo(ctaRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, 1.15)
-      .fromTo(sideRef.current, { opacity: 0 }, { opacity: 1, duration: 0.8 }, 1.2);
+      .fromTo(subRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, 0.8)
+      .fromTo(ctaRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, 1.0);
   }, [ready]);
 
   useEffect(() => {
@@ -81,18 +78,7 @@ export default function Hero({ ready }: { ready: boolean }) {
       />
 
       <div ref={contentRef} className="container-page relative flex flex-1 flex-col justify-center pb-24 pt-32 will-change-transform">
-        {/* side vertical labels */}
-        <div
-          ref={sideRef}
-          className="pointer-events-none absolute right-[3%] top-[26%] hidden flex-col items-end gap-4 opacity-0 xl:flex"
-        >
-          {hero.sideLabels.map((label) => (
-            <div key={label} className="flex items-center gap-2">
-              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-pink-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{label}</span>
-              <span className="h-px w-6 bg-[var(--color-signal-2)] shadow-[0_0_8px_rgba(255,77,109,0.8)]" />
-            </div>
-          ))}
-        </div>
+
 
         <div ref={eyebrowRef} className="eyebrow mb-6 max-w-md opacity-0 text-pink-300 font-semibold tracking-widest text-sm drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] uppercase">
           {hero.eyebrow}
