@@ -51,13 +51,13 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative overflow-hidden bg-[var(--color-panel)] py-10 sm:py-14">
-      <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-cyan-500 opacity-[0.1] blur-[120px]" />
+      <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-pink-500 opacity-[0.12] blur-[120px]" />
       <div className="container-page relative">
         <div className="mb-8 max-w-2xl sm:mb-10">
-          <div className="eyebrow mb-3 text-cyan-300 font-bold uppercase tracking-widest">Contact Us</div>
-          <h1 className="font-display text-5xl font-black uppercase leading-[0.98] tracking-tight sm:text-7xl text-white drop-shadow-[0_2px_12px_rgba(0,229,255,0.3)]">
+          <div className="eyebrow mb-3 text-pink-300 font-bold uppercase tracking-widest">Contact Us</div>
+          <h1 className="font-display text-5xl font-black uppercase leading-[0.98] tracking-tight sm:text-7xl text-white drop-shadow-[0_2px_12px_rgba(255,42,85,0.3)]">
             Let&apos;s make an
-            <span className="block text-[var(--color-signal-2)] text-glow drop-shadow-[0_0_20px_rgba(0,229,255,0.7)]">impression.</span>
+            <span className="block text-[var(--color-signal-2)] text-glow drop-shadow-[0_0_20px_rgba(255,77,109,0.7)]">impression.</span>
           </h1>
           <p className="mt-4 max-w-lg text-lg font-medium text-white/90 leading-relaxed">
             Tell us about the moment you want to own. We&apos;ll help shape the right aerial experience for it.
@@ -65,33 +65,33 @@ export default function Contact() {
         </div>
 
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_0.85fr] xl:gap-12">
-          <form onSubmit={submit} className="rounded-2xl border border-cyan-500/30 bg-[#070d1c] p-6 sm:p-9 shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
+          <form onSubmit={submit} className="rounded-2xl border border-rose-500/30 bg-[#16060c] p-6 sm:p-9 shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
             <div className="grid gap-6 sm:grid-cols-2">
               {fields.map((field) => (
                 <label key={field.name}>
-                  <span className="eyebrow mb-2 block text-cyan-200 font-semibold">{field.label}</span>
+                  <span className="eyebrow mb-2 block text-pink-200 font-semibold">{field.label}</span>
                   <input
                     required={field.name !== 'company'}
                     name={field.name}
                     type={field.type}
                     placeholder={field.placeholder}
-                    className="w-full border-b border-cyan-500/40 bg-white/5 px-3 py-2.5 text-sm text-white font-medium outline-none transition-all placeholder:text-white/40 focus:border-cyan-300 focus:bg-white/10 rounded-t"
+                    className="w-full border-b border-rose-500/40 bg-white/5 px-3 py-2.5 text-sm text-white font-medium outline-none transition-all placeholder:text-white/40 focus:border-pink-300 focus:bg-white/10 rounded-t"
                   />
                 </label>
               ))}
               <label className="sm:col-span-2">
-                <span className="eyebrow mb-2 block text-cyan-200 font-semibold">What are you planning?</span>
+                <span className="eyebrow mb-2 block text-pink-200 font-semibold">What are you planning?</span>
                 <textarea
                   required
                   name="message"
                   rows={4}
                   placeholder="Event, city, date and what you want people to see."
-                  className="w-full resize-none border-b border-cyan-500/40 bg-white/5 px-3 py-2.5 text-sm text-white font-medium outline-none transition-all placeholder:text-white/40 focus:border-cyan-300 focus:bg-white/10 rounded-t"
+                  className="w-full resize-none border-b border-rose-500/40 bg-white/5 px-3 py-2.5 text-sm text-white font-medium outline-none transition-all placeholder:text-white/40 focus:border-pink-300 focus:bg-white/10 rounded-t"
                 />
               </label>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <button disabled={status === 'sending'} type="submit" data-cursor="hover" className="rounded-full bg-cyan-400 hover:bg-cyan-300 px-7 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.15em] text-black shadow-[0_0_20px_rgba(0,229,255,0.4)] transition-all hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60">
+              <button disabled={status === 'sending'} type="submit" data-cursor="hover" className="rounded-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500 px-7 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.15em] text-white shadow-[0_0_20px_rgba(255,42,85,0.4)] transition-all hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60">
                 {status === 'sending' ? 'Sending…' : 'Send enquiry →'}
               </button>
               <a
@@ -104,14 +104,14 @@ export default function Contact() {
                 <WhatsAppIcon className="h-4 w-4 fill-current text-[#25D366]" />
                 <span>Chat on WhatsApp</span>
               </a>
-              {status === 'sent' && <span role="status" className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-cyan-300">Thanks — we&apos;ll be in touch.</span>}
+              {status === 'sent' && <span role="status" className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-pink-300">Thanks — we&apos;ll be in touch.</span>}
               {status === 'error' && <span role="alert" className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-red-300">Couldn&apos;t send your enquiry. Please try again.</span>}
             </div>
           </form>
 
           <div className="flex flex-col gap-5">
             <div className="grid gap-px overflow-hidden rounded-xl border border-white/20 bg-white/10 sm:grid-cols-3 shadow-lg">
-              <a href={`mailto:${contact.email}`} className="bg-[#0b1329] p-4 transition-all hover:bg-white/[0.08] group flex flex-col justify-between">
+              <a href={`mailto:${contact.email}`} className="bg-[#19070e] p-4 transition-all hover:bg-white/[0.08] group flex flex-col justify-between">
                 <div className="eyebrow mb-2 flex items-center gap-2.5 text-white font-semibold">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full border border-red-500/60 bg-red-500/25 text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.4)] transition-transform duration-300 group-hover:scale-110">
                     <MailIcon className="h-4 w-4 text-red-400" />
@@ -120,16 +120,16 @@ export default function Contact() {
                 </div>
                 <div className="text-xs font-bold text-white truncate">{contact.email}</div>
               </a>
-              <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="bg-[#0b1329] p-4 transition-all hover:bg-white/[0.08] group flex flex-col justify-between">
+              <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="bg-[#19070e] p-4 transition-all hover:bg-white/[0.08] group flex flex-col justify-between">
                 <div className="eyebrow mb-2 flex items-center gap-2.5 text-white font-semibold">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-cyan-400/60 bg-cyan-500/25 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-transform duration-300 group-hover:scale-110">
-                    <PhoneIcon className="h-4 w-4 text-cyan-300" />
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-pink-400/60 bg-pink-500/25 text-pink-300 shadow-[0_0_15px_rgba(255,77,109,0.4)] transition-transform duration-300 group-hover:scale-110">
+                    <PhoneIcon className="h-4 w-4 text-pink-300" />
                   </span>
                   <span className="text-white font-bold">Call us</span>
                 </div>
                 <div className="text-xs font-bold text-white">{contact.phone}</div>
               </a>
-              <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="bg-[#0b1329] p-4 transition-all hover:bg-white/[0.08] group flex flex-col justify-between">
+              <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="bg-[#19070e] p-4 transition-all hover:bg-white/[0.08] group flex flex-col justify-between">
                 <div className="eyebrow mb-2 flex items-center gap-2.5 text-emerald-300 font-semibold">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full border border-emerald-400/60 bg-emerald-500/25 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-transform duration-300 group-hover:scale-110">
                     <WhatsAppIcon className="h-4 w-4 text-emerald-400 fill-current" />
@@ -143,8 +143,8 @@ export default function Contact() {
             </div>
 
             {/* Social media icons implemented directly above the map in a single clean row */}
-            <div className="rounded-xl border border-white/20 bg-[#0b1329] p-4 sm:p-5 shadow-lg">
-              <div className="eyebrow mb-3 text-cyan-300 font-bold uppercase tracking-widest text-xs">Connect on Social</div>
+            <div className="rounded-xl border border-white/20 bg-[#19070e] p-4 sm:p-5 shadow-lg">
+              <div className="eyebrow mb-3 text-pink-300 font-bold uppercase tracking-widest text-xs">Connect on Social</div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                 {contact.social.map((s) => {
                   const brandBadgeStyles = 

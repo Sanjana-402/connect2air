@@ -43,10 +43,14 @@ router.post('/', async (req, res, next) => {
     }
 
     let enquiryDoc;
-    // Always attempt storing in MongoDB
+    // Always attempt storing in MongoDB if connected
     try {
-      enquiryDoc = await Contact.create(values);
-      console.log(`[MongoDB Success] Stored enquiry in database with ID: ${enquiryDoc._id}`);
+      if (mongoose.connection.readyState === 1) {
+        enquiryDoc = await Contact.create(values);
+        console.log(`[MongoDB Success] Stored enquiry in database with ID: ${enquiryDoc._id}`);
+      } else {
+        console.log('[MongoDB Notice] Database disconnected/offline. Skipping DB persistence.');
+      }
     } catch (dbErr) {
       console.error('[MongoDB Warning] Could not persist to database:', dbErr.message);
     }
@@ -60,6 +64,7 @@ router.post('/', async (req, res, next) => {
       data: enquiryDoc || values,
     });
   } catch (error) {
+    console.error('API Contact Error:', error);
     if (error.name === 'ValidationError') {
       return res.status(400).json({ message: 'Please check the details and try again.', error: error.message });
     }

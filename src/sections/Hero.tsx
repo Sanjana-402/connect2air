@@ -88,13 +88,13 @@ export default function Hero({ ready }: { ready: boolean }) {
         >
           {hero.sideLabels.map((label) => (
             <div key={label} className="flex items-center gap-2">
-              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{label}</span>
-              <span className="h-px w-6 bg-[var(--color-signal-2)] shadow-[0_0_8px_rgba(0,229,255,0.8)]" />
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-pink-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{label}</span>
+              <span className="h-px w-6 bg-[var(--color-signal-2)] shadow-[0_0_8px_rgba(255,77,109,0.8)]" />
             </div>
           ))}
         </div>
 
-        <div ref={eyebrowRef} className="eyebrow mb-6 max-w-md opacity-0 text-cyan-300 font-semibold tracking-widest text-sm drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] uppercase">
+        <div ref={eyebrowRef} className="eyebrow mb-6 max-w-md opacity-0 text-pink-300 font-semibold tracking-widest text-sm drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] uppercase">
           {hero.eyebrow}
         </div>
 
@@ -103,7 +103,7 @@ export default function Hero({ ready }: { ready: boolean }) {
             <span className="line block text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">{hero.headlineTop}</span>
           </span>
           <span className="block overflow-hidden">
-            <span className="line block text-[var(--color-signal-2)] text-glow drop-shadow-[0_0_25px_rgba(0,229,255,0.8)]">{hero.headlineAccent}.</span>
+            <span className="line block text-[var(--color-signal-2)] text-glow drop-shadow-[0_0_25px_rgba(255,77,109,0.8)]">{hero.headlineAccent}.</span>
           </span>
         </h1>
 
@@ -116,16 +116,16 @@ export default function Hero({ ready }: { ready: boolean }) {
             as="a"
             href="#services"
             cursorLabel="Go"
-            className="inline-flex items-center gap-2.5 rounded-full bg-white hover:bg-cyan-300 px-7 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all hover:scale-105"
+            className="inline-flex items-center gap-2.5 rounded-full bg-white hover:bg-pink-300 px-7 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all hover:scale-105"
           >
             {hero.ctaPrimary}
           </MagneticButton>
           <a
             href="#showreel"
             data-cursor="hover"
-            className="inline-flex items-center gap-2.5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-white hover:text-cyan-300 transition-colors drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] group"
+            className="inline-flex items-center gap-2.5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-white hover:text-pink-300 transition-colors drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] group"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/50 bg-black/40 group-hover:bg-cyan-500/20 group-hover:border-cyan-300 shadow-[0_0_10px_rgba(0,229,255,0.3)] transition-all">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-pink-500/50 bg-black/40 group-hover:bg-pink-500/20 group-hover:border-pink-300 shadow-[0_0_10px_rgba(255,77,109,0.3)] transition-all">
               ▸
             </span>
             {hero.ctaSecondary}

@@ -73,12 +73,12 @@ export const ContactModal: React.FC = () => {
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md transition-opacity duration-300 animate-fadeIn">
       {/* Modal Content Box */}
       <div 
-        className="relative w-full max-w-lg bg-gradient-to-b from-[#0b1329] to-[#04070e] border border-cyan-500/40 rounded-2xl p-6 sm:p-8 shadow-[0_0_50px_rgba(0,229,255,0.25)] transition-all duration-300 transform scale-100"
+        className="relative w-full max-w-lg bg-gradient-to-b from-[#1c0811] to-[#0a0305] border border-rose-500/40 rounded-2xl p-6 sm:p-8 shadow-[0_0_50px_rgba(255,42,85,0.25)] transition-all duration-300 transform scale-100"
       >
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 text-cyan-400/80 hover:text-white bg-white/5 hover:bg-white/10 p-2 rounded-full border border-cyan-500/20 transition-all duration-200 group hover:rotate-90"
+          className="absolute top-4 right-4 text-pink-400/80 hover:text-white bg-white/5 hover:bg-white/10 p-2 rounded-full border border-pink-500/20 transition-all duration-200 group hover:rotate-90"
           aria-label="Close modal"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -88,7 +88,7 @@ export const ContactModal: React.FC = () => {
 
         {submitted ? (
           <div className="py-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-cyan-500/20 border border-cyan-400 text-cyan-400 rounded-full flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(0,229,255,0.4)]">
+            <div className="w-16 h-16 bg-pink-500/20 border border-pink-400 text-pink-400 rounded-full flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(255,77,109,0.4)]">
               <svg className="w-10 h-10 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
@@ -100,10 +100,10 @@ export const ContactModal: React.FC = () => {
           <>
             {/* Header */}
             <div className="mb-6 pr-6">
-              <span className="inline-block px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold rounded-full uppercase tracking-wider mb-2 shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+              <span className="inline-block px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs font-semibold rounded-full uppercase tracking-wider mb-2 shadow-[0_0_10px_rgba(255,42,85,0.2)]">
                 Quick Enquiry
               </span>
-              <h3 className="text-2xl font-extrabold text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,229,255,0.3)]">
+              <h3 className="text-2xl font-extrabold text-white tracking-tight drop-shadow-[0_2px_10px_rgba(255,42,85,0.3)]">
                 Launch Your Aerial Display
               </h3>
               <p className="text-white/80 text-xs mt-1">
@@ -114,60 +114,60 @@ export const ContactModal: React.FC = () => {
             {/* Quick Contact Form */}
             <form onSubmit={handleSubmit} className="space-y-3.5">
               <div>
-                <label className="block text-xs font-semibold text-cyan-200 mb-1">Your Name *</label>
+                <label className="block text-xs font-semibold text-pink-200 mb-1">Your Name *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Rahul Sharma"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-white/5 border border-cyan-500/30 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition"
+                  className="w-full bg-white/5 border border-rose-500/30 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-cyan-200 mb-1">Phone Number *</label>
+                  <label className="block text-xs font-semibold text-pink-200 mb-1">Phone Number *</label>
                   <input
                     type="tel"
                     required
                     placeholder="+91 98765 43210"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full bg-white/5 border border-cyan-500/30 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition"
+                    className="w-full bg-white/5 border border-rose-500/30 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-cyan-200 mb-1">Email Address</label>
+                  <label className="block text-xs font-semibold text-pink-200 mb-1">Email Address</label>
                   <input
                     type="email"
                     placeholder="name@company.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-white/5 border border-cyan-500/30 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition"
+                    className="w-full bg-white/5 border border-rose-500/30 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-cyan-200 mb-1">Event Location & Date</label>
+                <label className="block text-xs font-semibold text-pink-200 mb-1">Event Location & Date</label>
                 <input
                   type="text"
                   placeholder="City, State / Target Date"
                   value={formData.eventLocation}
                   onChange={(e) => setFormData({ ...formData, eventLocation: e.target.value })}
-                  className="w-full bg-white/5 border border-cyan-500/30 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition"
+                  className="w-full bg-white/5 border border-rose-500/30 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-cyan-200 mb-1">Brief Requirements</label>
+                <label className="block text-xs font-semibold text-pink-200 mb-1">Brief Requirements</label>
                 <textarea
                   rows={2}
                   placeholder="Brand launch, wedding, festival aerial advertising..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-white/5 border border-cyan-500/30 rounded-lg px-3.5 py-2 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition resize-none"
+                  className="w-full bg-white/5 border border-rose-500/30 rounded-lg px-3.5 py-2 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition resize-none"
                 />
               </div>
 
@@ -184,7 +184,7 @@ export const ContactModal: React.FC = () => {
                 </a>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm rounded-lg shadow-[0_0_20px_rgba(0,229,255,0.4)] transition hover:scale-105 active:scale-95 flex items-center gap-2"
+                  className="px-6 py-2.5 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500 text-white font-bold text-sm rounded-lg shadow-[0_0_20px_rgba(255,42,85,0.4)] transition hover:scale-105 active:scale-95 flex items-center gap-2"
                 >
                   <span>Submit Inquiry</span>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

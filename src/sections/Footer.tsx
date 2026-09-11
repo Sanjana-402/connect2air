@@ -3,20 +3,20 @@ import { SocialIcon } from '@/components/Icons';
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-cyan-500/20 bg-[var(--color-void)] pb-8 pt-8 sm:pt-10">
+    <footer className="relative border-t border-pink-500/20 bg-[var(--color-void)] pb-8 pt-8 sm:pt-10">
       <div className="container-page">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <img src={brand.logo} alt={brand.name} className="h-14 w-auto object-contain" />
-            <p className="eyebrow mt-1 text-cyan-300 font-bold uppercase tracking-wider text-xs drop-shadow-[0_0_8px_rgba(0,229,255,0.3)]">{brand.tagline}</p>
+            <p className="eyebrow mt-1 text-pink-300 font-bold uppercase tracking-wider text-xs drop-shadow-[0_0_8px_rgba(255,42,85,0.3)]">{brand.tagline}</p>
           </div>
 
           <div>
-            <div className="eyebrow mb-3 text-cyan-300 font-bold uppercase tracking-widest text-xs">Navigation</div>
+            <div className="eyebrow mb-3 text-pink-300 font-bold uppercase tracking-widest text-xs">Navigation</div>
             <ul className="flex flex-col gap-2">
               {nav.links.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="text-sm font-medium text-white/90 transition-colors hover:text-cyan-300">
+                  <a href={l.href} className="text-sm font-medium text-white/90 transition-colors hover:text-pink-300">
                     {l.label}
                   </a>
                 </li>
@@ -25,7 +25,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="eyebrow mb-3 text-cyan-300 font-bold uppercase tracking-widest text-xs">Services</div>
+            <div className="eyebrow mb-3 text-pink-300 font-bold uppercase tracking-widest text-xs">Services</div>
             <ul className="flex flex-col gap-2">
               {services.slice(0, 5).map((s) => (
                 <li key={s.number} className="text-sm font-medium text-white/80">
@@ -36,15 +36,15 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="eyebrow mb-3 text-cyan-300 font-bold uppercase tracking-widest text-xs">Contact</div>
+            <div className="eyebrow mb-3 text-pink-300 font-bold uppercase tracking-widest text-xs">Contact</div>
             <ul className="flex flex-col gap-2 text-sm font-medium text-white/90">
               <li>
-                <a href={`mailto:${contact.email}`} className="transition-colors hover:text-cyan-300">
+                <a href={`mailto:${contact.email}`} className="transition-colors hover:text-pink-300">
                   {contact.email}
                 </a>
               </li>
               <li>
-                <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="transition-colors hover:text-cyan-300">
+                <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="transition-colors hover:text-pink-300">
                   {contact.phone}
                 </a>
               </li>

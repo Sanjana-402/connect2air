@@ -18,8 +18,8 @@ export default function Showreel() {
       <div ref={ref} className="container-page">
         <div data-reveal className="mb-8 flex flex-wrap items-end justify-between gap-6">
           <div>
-            <span className="eyebrow mb-2 block text-cyan-300 font-bold uppercase tracking-widest">Featured Reel</span>
-            <h2 className="font-display max-w-lg text-4xl font-black uppercase leading-[1.05] tracking-tight sm:text-6xl text-white drop-shadow-[0_2px_12px_rgba(0,229,255,0.3)]">
+            <span className="eyebrow mb-2 block text-pink-300 font-bold uppercase tracking-widest">Featured Reel</span>
+            <h2 className="font-display max-w-lg text-4xl font-black uppercase leading-[1.05] tracking-tight sm:text-6xl text-white drop-shadow-[0_2px_12px_rgba(255,42,85,0.3)]">
               Watch
               <br />
               <span className="text-[var(--color-signal-2)] text-glow">the sky move.</span>

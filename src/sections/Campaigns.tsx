@@ -27,8 +27,8 @@ export default function Campaigns() {
     <section id="experiences" className="relative bg-[var(--color-void)] py-10 sm:py-14">
       <div className="container-page">
         <div className="mb-6 sm:mb-10">
-          <div className="eyebrow mb-4 text-cyan-300 font-bold uppercase tracking-widest">Experiences</div>
-          <h2 className="font-display max-w-xl text-4xl font-black uppercase leading-[1.02] tracking-tight sm:text-6xl text-white drop-shadow-[0_2px_12px_rgba(0,229,255,0.3)]">
+          <div className="eyebrow mb-4 text-pink-300 font-bold uppercase tracking-widest">Experiences</div>
+          <h2 className="font-display max-w-xl text-4xl font-black uppercase leading-[1.02] tracking-tight sm:text-6xl text-white drop-shadow-[0_2px_12px_rgba(255,42,85,0.3)]">
             Where your
             <br />
             <span className="text-[var(--color-signal-2)] text-glow">brand takes off.</span>

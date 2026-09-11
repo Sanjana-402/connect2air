@@ -5,20 +5,20 @@
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  --color-void: #050505;
-  --color-void-2: #080808;
-  --color-panel: #0d0d0f;
-  --color-panel-2: #151518;
-  --color-panel-3: #1c1c20;
-  --color-line: #232327;
+  --color-void: #0a0305;
+  --color-void-2: #120508;
+  --color-panel: #1a080d;
+  --color-panel-2: #240b12;
+  --color-panel-3: #2d0e17;
+  --color-line: #3d1420;
 
   --color-ink: #ffffff;
-  --color-ink-dim: #a7a7ad;
-  --color-ink-faint: #77777f;
+  --color-ink-dim: #f3d5dd;
+  --color-ink-faint: #d49ba8;
 
-  --color-signal: #f20a83;
-  --color-signal-2: #ff1493;
-  --color-signal-soft: #f20a8322;
+  --color-signal: #ff2a55;
+  --color-signal-2: #ff4d6d;
+  --color-signal-soft: rgba(255, 42, 85, 0.25);
 }
 
 :root {
@@ -154,8 +154,8 @@ a, button {
 }
 
 @keyframes droneLightPulse {
-  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 2px #ff1493); }
-  50% { opacity: 1; filter: drop-shadow(0 0 6px #ff1493); }
+  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 2px #ff4d6d); }
+  50% { opacity: 1; filter: drop-shadow(0 0 6px #ff4d6d); }
 }
 .drone-light {
   animation: droneLightPulse 1.6s ease-in-out infinite;
