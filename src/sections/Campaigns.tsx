@@ -24,14 +24,14 @@ export default function Campaigns() {
   const ref = useScrollReveal<HTMLDivElement>({ stagger: 0.06 });
 
   return (
-    <section id="experiences" className="relative bg-[var(--color-void)] py-16 sm:py-24">
+    <section id="experiences" className="relative bg-[var(--color-void)] py-10 sm:py-14">
       <div className="container-page">
-        <div className="mb-8 sm:mb-12">
-          <div className="eyebrow mb-5">Experiences</div>
-          <h2 className="font-display max-w-xl text-4xl font-bold uppercase leading-[1.02] tracking-tight sm:text-6xl">
+        <div className="mb-6 sm:mb-10">
+          <div className="eyebrow mb-4 text-cyan-300 font-bold uppercase tracking-widest">Experiences</div>
+          <h2 className="font-display max-w-xl text-4xl font-black uppercase leading-[1.02] tracking-tight sm:text-6xl text-white drop-shadow-[0_2px_12px_rgba(0,229,255,0.3)]">
             Where your
             <br />
-            brand takes off.
+            <span className="text-[var(--color-signal-2)] text-glow">brand takes off.</span>
           </h2>
         </div>
 

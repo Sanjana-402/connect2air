@@ -13,6 +13,7 @@ export const nav = {
     { label: 'Home', href: '#home' },
     { label: 'About', href: '#about' },
     { label: 'Services', href: '#services' },
+    { label: 'Pricing', href: '#pricing' },
     { label: 'Contact', href: '#contact' },
   ],
   cta: 'Get a quote',
@@ -170,11 +171,11 @@ export const contact = {
   email: 'hr@connect2future.com',
   phone: '+91 90359 99272',
   location: '',
-  whatsapp: 'https://wa.me/919035999272',
+  whatsapp: 'https://wa.me/919035999272?text=Hi%20Connect2Air%20team!%20I%20am%20interested%20in%20planning%20a%20drone%20LED%20display%20campaign.%20Please%20share%20more%20details.',
   social: [
     { label: 'Instagram', href: 'https://www.instagram.com/_connect2air?stkn=NnE1NzBsYnNqeTF' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/company/connect2future/' },
-    { label: 'WhatsApp', href: 'https://wa.me/919035999272' },
+    { label: 'WhatsApp', href: 'https://wa.me/919035999272?text=Hi%20Connect2Air%20team!%20I%20am%20interested%20in%20planning%20a%20drone%20LED%20display%20campaign.%20Please%20share%20more%20details.' },
     { label: 'Email', href: 'mailto:hr@connect2future.com' },
   ],
 };

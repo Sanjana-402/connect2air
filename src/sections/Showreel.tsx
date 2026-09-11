@@ -14,14 +14,17 @@ export default function Showreel() {
   };
 
   return (
-    <section className="relative bg-[var(--color-void)] pb-16 sm:pb-24">
+    <section id="showreel" className="relative bg-[var(--color-void)] pb-10 sm:pb-16 scroll-mt-24">
       <div ref={ref} className="container-page">
-        <div data-reveal className="mb-10 flex flex-wrap items-end justify-between gap-6">
-          <h2 className="font-display max-w-lg text-3xl font-bold uppercase leading-[1.05] tracking-tight sm:text-5xl">
-            Watch
-            <br />
-            the sky move.
-          </h2>
+        <div data-reveal className="mb-8 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <span className="eyebrow mb-2 block text-cyan-300 font-bold uppercase tracking-widest">Featured Reel</span>
+            <h2 className="font-display max-w-lg text-4xl font-black uppercase leading-[1.05] tracking-tight sm:text-6xl text-white drop-shadow-[0_2px_12px_rgba(0,229,255,0.3)]">
+              Watch
+              <br />
+              <span className="text-[var(--color-signal-2)] text-glow">the sky move.</span>
+            </h2>
+          </div>
         </div>
 
         <div

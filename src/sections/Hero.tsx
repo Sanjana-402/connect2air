@@ -69,14 +69,14 @@ export default function Hero({ ready }: { ready: boolean }) {
         muted
         playsInline
         src={heroVideo}
-        className="pointer-events-none absolute inset-0 hidden h-full w-full scale-125 object-cover object-[80%_center] lg:block"
+        className="pointer-events-none absolute inset-0 hidden h-full w-full scale-125 object-cover object-[80%_center] filter brightness-110 contrast-105 lg:block transition-all duration-700"
       />
       <div
         ref={glowRef}
-        className="pointer-events-none absolute inset-0 opacity-0"
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700"
         style={{
           background:
-            'linear-gradient(90deg, rgba(4,7,14,0.96) 0%, rgba(4,7,14,0.85) 42%, rgba(4,7,14,0.15) 80%), linear-gradient(0deg, rgba(4,7,14,0.99) 0%, rgba(4,7,14,0.88) 14%, transparent 30%, rgba(4,7,14,0.3) 100%)',
+            'linear-gradient(90deg, rgba(4,7,14,0.70) 0%, rgba(4,7,14,0.40) 45%, rgba(4,7,14,0.10) 85%), linear-gradient(0deg, rgba(4,7,14,0.80) 0%, transparent 25%, transparent 75%, rgba(4,7,14,0.30) 100%)',
         }}
       />
 
@@ -88,26 +88,26 @@ export default function Hero({ ready }: { ready: boolean }) {
         >
           {hero.sideLabels.map((label) => (
             <div key={label} className="flex items-center gap-2">
-              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/45">{label}</span>
-              <span className="h-px w-6 bg-[var(--color-signal-2)]" />
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{label}</span>
+              <span className="h-px w-6 bg-[var(--color-signal-2)] shadow-[0_0_8px_rgba(0,229,255,0.8)]" />
             </div>
           ))}
         </div>
 
-        <div ref={eyebrowRef} className="eyebrow mb-6 max-w-xs opacity-0">
+        <div ref={eyebrowRef} className="eyebrow mb-6 max-w-md opacity-0 text-cyan-300 font-semibold tracking-widest text-sm drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] uppercase">
           {hero.eyebrow}
         </div>
 
-        <h1 ref={headlineRef} className="font-display max-w-xl text-[8vw] font-extrabold uppercase leading-[0.94] tracking-tight sm:text-[5vw] lg:text-[3.8vw]">
+        <h1 ref={headlineRef} className="font-display max-w-xl text-[8vw] font-black uppercase leading-[0.94] tracking-tight sm:text-[5vw] lg:text-[3.8vw] text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
           <span className="block overflow-hidden">
-            <span className="line block">{hero.headlineTop}</span>
+            <span className="line block text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">{hero.headlineTop}</span>
           </span>
           <span className="block overflow-hidden">
-            <span className="line block text-[var(--color-signal-2)] text-glow">{hero.headlineAccent}.</span>
+            <span className="line block text-[var(--color-signal-2)] text-glow drop-shadow-[0_0_25px_rgba(0,229,255,0.8)]">{hero.headlineAccent}.</span>
           </span>
         </h1>
 
-        <p ref={subRef} className="mt-6 max-w-md text-base text-[var(--color-ink-dim)] opacity-0 sm:text-lg">
+        <p ref={subRef} className="mt-6 max-w-md text-lg sm:text-xl font-medium text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] opacity-0 leading-relaxed">
           {hero.sub}
         </p>
 
@@ -116,16 +116,16 @@ export default function Hero({ ready }: { ready: boolean }) {
             as="a"
             href="#services"
             cursorLabel="Go"
-            className="inline-flex items-center gap-2.5 rounded-full bg-white px-6 py-3.5 font-mono text-xs uppercase tracking-[0.14em] text-black transition-transform"
+            className="inline-flex items-center gap-2.5 rounded-full bg-white hover:bg-cyan-300 px-7 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all hover:scale-105"
           >
             {hero.ctaPrimary}
           </MagneticButton>
           <a
-            href="#experiences"
+            href="#showreel"
             data-cursor="hover"
-            className="inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white"
+            className="inline-flex items-center gap-2.5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-white hover:text-cyan-300 transition-colors drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] group"
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/50 bg-black/40 group-hover:bg-cyan-500/20 group-hover:border-cyan-300 shadow-[0_0_10px_rgba(0,229,255,0.3)] transition-all">
               ▸
             </span>
             {hero.ctaSecondary}

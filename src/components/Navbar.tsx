@@ -76,13 +76,13 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 data-cursor="hover"
-                className={`group relative py-2 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors ${
-                  active === link.href ? 'text-white' : 'text-white/55 hover:text-white'
+                className={`group relative py-2 font-mono text-[12px] font-bold uppercase tracking-[0.16em] transition-colors ${
+                  active === link.href ? 'text-cyan-300 text-glow' : 'text-white/90 hover:text-cyan-300'
                 }`}
               >
                 {link.label}
                 <span
-                  className={`absolute -bottom-0.5 left-0 h-px bg-[var(--color-signal-2)] transition-all duration-300 ${
+                  className={`absolute -bottom-0.5 left-0 h-px bg-[var(--color-signal-2)] shadow-[0_0_8px_rgba(0,229,255,0.8)] transition-all duration-300 ${
                     active === link.href ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}
                 />

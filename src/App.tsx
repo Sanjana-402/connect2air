@@ -3,6 +3,7 @@ import Loader from '@/components/Loader';
 import Navbar from '@/components/Navbar';
 import CustomCursor from '@/components/CustomCursor';
 import ScrollProgress from '@/components/ScrollProgress';
+import { ContactModal } from '@/components/ContactModal';
 import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 
 import Hero from '@/sections/Hero';
@@ -37,6 +38,7 @@ export default function App() {
       <CustomCursor />
       <ScrollProgress />
       <Navbar />
+      <ContactModal />
 
       <main>
         <Hero ready={heroReady} />

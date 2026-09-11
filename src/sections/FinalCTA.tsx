@@ -40,30 +40,30 @@ export default function FinalCTA() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-[var(--color-void)] py-16 sm:py-24">
+    <section ref={sectionRef} className="relative overflow-hidden bg-[var(--color-void)] py-10 sm:py-14">
       <div
         ref={glowRef}
         className="pointer-events-none absolute left-1/2 top-1/2 h-[50vw] w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(242,10,131,0.35), transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, rgba(0,229,255,0.25), transparent 70%)' }}
       />
-      <div className="pulse-dot pointer-events-none absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
+      <div className="pulse-dot pointer-events-none absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400" />
 
       <div ref={headingRef} className="container-page relative text-center">
-        <div data-reveal className="eyebrow mb-8">Ready when you are</div>
-        <h2 className="font-display mx-auto max-w-4xl text-[11vw] font-extrabold uppercase leading-[0.95] tracking-tight sm:text-7xl">
+        <div data-reveal className="eyebrow mb-6 text-cyan-300 font-bold uppercase tracking-widest">Ready when you are</div>
+        <h2 className="font-display mx-auto max-w-4xl text-[11vw] font-black uppercase leading-[0.95] tracking-tight sm:text-7xl text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
           <span data-reveal className="block">Ready to take</span>
           <span data-reveal className="block">your brand <span className="text-[var(--color-signal-2)] text-glow">higher?</span></span>
         </h2>
-        <p data-reveal className="mx-auto mt-8 max-w-md text-[var(--color-ink-dim)]">
+        <p data-reveal className="mx-auto mt-6 max-w-md text-lg font-medium text-white/90 leading-relaxed">
           Let's create something people can't help but look up for.
         </p>
 
-        <div data-reveal className="mt-10 flex flex-wrap items-center justify-center gap-5">
+        <div data-reveal className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <MagneticButton
             as="a"
             href="#contact"
             cursorLabel="Start"
-            className="inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-4 font-mono text-xs uppercase tracking-[0.14em] text-black"
+            className="inline-flex items-center gap-2.5 rounded-full bg-white hover:bg-cyan-300 px-7 py-4 font-mono text-xs font-bold uppercase tracking-[0.14em] text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all hover:scale-105"
           >
             Start a campaign →
           </MagneticButton>
@@ -72,7 +72,7 @@ export default function FinalCTA() {
             target="_blank"
             rel="noreferrer"
             data-cursor="hover"
-            className="inline-flex items-center gap-2.5 rounded-full border border-white/25 px-7 py-4 font-mono text-xs uppercase tracking-[0.14em] text-white transition-colors hover:border-[var(--color-signal-2)]"
+            className="inline-flex items-center gap-2.5 rounded-full border border-emerald-500/60 bg-emerald-500/10 px-7 py-4 font-mono text-xs font-bold uppercase tracking-[0.14em] text-emerald-300 shadow-[0_0_15px_rgba(37,211,102,0.3)] transition-all hover:bg-emerald-500/20 hover:scale-105"
           >
             <WhatsAppIcon className="h-4 w-4 fill-current text-[#25D366]" />
             Talk to our team
