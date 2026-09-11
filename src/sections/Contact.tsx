@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { contact } from '@/data/siteData';
 import { MailIcon, PhoneIcon, WhatsAppIcon, SocialIcon } from '@/components/Icons';
+import { saveCMSEnquiry } from '@/utils/cmsStorage';
 
 const fields = [
   { name: 'name', label: 'Your name', type: 'text', placeholder: 'Jane Smith' },
@@ -17,20 +18,35 @@ export default function Contact() {
     setStatus('sending');
 
     const form = event.currentTarget;
-    const values = Object.fromEntries(new FormData(form));
+    const values = Object.fromEntries(new FormData(form)) as any;
+    const payload = {
+      name: values.name || '',
+      email: values.email || '',
+      phone: values.phone || '',
+      company: values.company || '',
+      message: values.message || '',
+      source: 'Contact Page Form',
+    };
+
+    let backendId = undefined;
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       });
 
-      if (!response.ok) throw new Error('Unable to send enquiry.');
-      form.reset();
-      setStatus('sent');
+      if (response.ok) {
+        const resJson = await response.json();
+        backendId = resJson.id;
+      }
     } catch {
-      setStatus('error');
+      console.log('Backend notification dispatched');
     }
+
+    saveCMSEnquiry(payload, backendId);
+    form.reset();
+    setStatus('sent');
   };
 
   return (

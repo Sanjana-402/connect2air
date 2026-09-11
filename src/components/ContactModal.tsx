@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { contact } from '@/data/siteData';
+import { saveCMSEnquiry } from '@/utils/cmsStorage';
 
 export const ContactModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,8 +29,37 @@ export const ContactModal: React.FC = () => {
     sessionStorage.setItem('c2a_contact_modal_closed', 'true');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const payload = {
+      name: formData.name.trim(),
+      email: formData.email.trim() || 'N/A',
+      phone: formData.phone.trim(),
+      company: formData.eventLocation.trim() || 'N/A',
+      message: formData.message.trim() || 'Quick Enquiry from pop-up modal',
+      source: 'Quick Enquiry Modal',
+    };
+
+    // Send to backend API and trigger email notification
+    let backendId = undefined;
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        const resJson = await res.json();
+        backendId = resJson.id;
+      }
+    } catch (err) {
+      console.log('Backend API offline, saving to local store');
+    }
+
+    // Save with unique backend ID or fallback
+    saveCMSEnquiry(payload, backendId);
+
+    setFormData({ name: '', email: '', phone: '', eventLocation: '', message: '' });
     setSubmitted(true);
     setTimeout(() => {
       handleClose();

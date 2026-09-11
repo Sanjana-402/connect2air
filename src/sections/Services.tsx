@@ -1,38 +1,24 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from '@/lib/gsap';
-import { services } from '@/data/siteData';
-
-const flightPackages = [
-  {
-    step: 'ONE FLY',
-    price: '₹15,000',
-    duration: '10 MINS',
-    badge: '1 Flight',
-    timeline: 'Single Display',
-    description: '1 Flight duration of 10 minutes over the venue crowd.',
-  },
-  {
-    step: 'TWO FLIES',
-    price: '₹30,000',
-    duration: '20 MINS',
-    badge: '2 Flights',
-    timeline: '2 Sessions',
-    description: '2 Flights totaling 20 minutes with 1 hour interval.',
-  },
-  {
-    step: 'THREE FLIES',
-    price: '₹45,000',
-    duration: '30 MINS',
-    badge: '3 Flights',
-    timeline: '3 Sessions',
-    description: '3 Flights totaling 30 minutes with 1 hour intervals.',
-  },
-];
+import { getCMSServices, getCMSPricing, type ServiceItem, type PricingItem } from '@/utils/cmsStorage';
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const headingRef = useRef<HTMLDivElement>(null);
+
+  const [servicesList, setServicesList] = useState<ServiceItem[]>(getCMSServices());
+  const [pricingList, setPricingList] = useState<PricingItem[]>(getCMSPricing());
+
+  // Listen for CMS updates from Admin Page
+  useEffect(() => {
+    const handleUpdate = () => {
+      setServicesList(getCMSServices());
+      setPricingList(getCMSPricing());
+    };
+    window.addEventListener('c2a_cms_updated', handleUpdate);
+    return () => window.removeEventListener('c2a_cms_updated', handleUpdate);
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -61,7 +47,7 @@ export default function Services() {
       });
     }, section);
     return () => ctx.revert();
-  }, []);
+  }, [servicesList]);
 
   return (
     <section id="services" ref={sectionRef} className="relative bg-[var(--color-void)] py-10 sm:py-16">
@@ -84,12 +70,12 @@ export default function Services() {
             </div>
           </div>
 
-          {/* Right Column: 3 Flight Cards */}
+          {/* Right Column: Pricing Flight Cards */}
           <div data-reveal className="lg:col-span-7">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              {flightPackages.map((pkg, idx) => (
+              {pricingList.map((pkg, idx) => (
                 <div
-                  key={pkg.step}
+                  key={pkg.id || pkg.step}
                   className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-cyan-500/30 bg-gradient-to-b from-white/[0.08] to-white/[0.02] p-5 backdrop-blur-xl transition-all duration-500 hover:border-cyan-400 hover:bg-white/[0.1] hover:shadow-[0_0_30px_rgba(0,229,255,0.3)] hover:-translate-y-1"
                 >
                   <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-cyan-400 opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-40" />
@@ -97,7 +83,7 @@ export default function Services() {
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-cyan-300 bg-cyan-500/20 border border-cyan-400/30 px-2 py-0.5 rounded-full shadow-[0_0_8px_rgba(0,229,255,0.2)]">
-                        {pkg.badge}
+                        {pkg.badge || 'Flight Package'}
                       </span>
                       <span className="font-mono text-xs font-bold text-white/50">0{idx + 1}</span>
                     </div>
@@ -131,11 +117,11 @@ export default function Services() {
         </div>
       </div>
 
-      {/* 5 Overlapping Sticky Cards with 3D & Color Effects */}
+      {/* Dynamic Overlapping Sticky Cards with 3D & Color Effects */}
       <div className="relative mt-8">
-        {services.map((service, i) => (
+        {servicesList.map((service, i) => (
           <div
-            key={service.number}
+            key={service.id || service.number}
             ref={(el) => {
               panelRefs.current[i] = el;
             }}
