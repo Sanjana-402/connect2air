@@ -51,7 +51,6 @@ export default function App() {
       )}
 
       <CustomCursor />
-      <ScrollProgress />
       <Navbar />
       <ContactModal />
 

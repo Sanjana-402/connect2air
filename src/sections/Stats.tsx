@@ -49,17 +49,17 @@ function StatItem({ value, label }: { value: string; label: string }) {
   const display = useCountUp(value, active);
 
   return (
-    <div ref={ref} className="border-t border-white/10 py-8">
-      <div className="font-display text-5xl font-extrabold text-white sm:text-7xl">{display}</div>
-      <div className="eyebrow mt-3">{label}</div>
+    <div ref={ref} className="border-t border-white/10 py-3 sm:py-4">
+      <div className="font-display text-4xl font-extrabold text-white sm:text-6xl">{display}</div>
+      <div className="eyebrow mt-2 text-xs text-white/70">{label}</div>
     </div>
   );
 }
 
 export default function Stats() {
   return (
-    <section className="relative bg-[var(--color-void)] py-20 sm:py-28">
-      <div className="container-page grid grid-cols-2 gap-x-8 lg:grid-cols-4">
+    <section className="relative bg-[var(--color-void)] py-4 sm:py-6">
+      <div className="container-page grid grid-cols-2 gap-x-8 gap-y-4 lg:grid-cols-4">
         {stats.map((s) => (
           <StatItem key={s.label} value={s.value} label={s.label} />
         ))}

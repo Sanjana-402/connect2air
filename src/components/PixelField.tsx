@@ -21,11 +21,16 @@ function sampleTextPoints(text: string, width: number, height: number, count: nu
   off.height = height;
   const ctx = off.getContext('2d')!;
   ctx.fillStyle = '#fff';
-  const fontSize = Math.min(width / (text.length * 0.62), height * 0.62);
+  const isMobile = width < 768;
+  const textY = isMobile ? height * 0.22 : height / 2;
+  const fontSize = isMobile
+    ? Math.min((width * 0.82) / (text.length * 0.58), height * 0.18)
+    : Math.min((width * 0.75) / (text.length * 0.58), height * 0.45);
+
   ctx.font = `800 ${fontSize}px Manrope, Inter, sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(text, width / 2, height / 2);
+  ctx.fillText(text, width / 2, textY);
 
   const { data } = ctx.getImageData(0, 0, width, height);
   const points: { x: number; y: number }[] = [];

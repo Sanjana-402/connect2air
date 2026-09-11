@@ -43,9 +43,9 @@ export const hero = {
   ctaSecondary: 'See our work',
   sideLabels: ['Drone LED displays', 'Aerial advertising', 'Live events', 'Brand activations'],
   stats: [
-    { value: '100+', label: 'Events' },
-    { value: '50+', label: 'Brands' },
-    { value: '10+', label: 'Cities' },
+    { value: '20+', label: 'Events' },
+    { value: '15+', label: 'Brands' },
+    { value: '20+', label: 'Cities' },
     { value: '∞', label: 'Possibilities' },
   ],
 };
@@ -150,20 +150,52 @@ export const reachDefaults = {
 };
 
 export const campaigns = [
-  { category: 'Concerts', label: 'Concerts & tours' },
-  { category: 'Sports', label: 'Sports events' },
-  { category: 'Festivals', label: 'Festivals' },
-  { category: 'Brand launches', label: 'Brand launches' },
-  { category: 'Real estate', label: 'Real-estate promotions' },
-  { category: 'Corporate', label: 'Corporate events' },
-  { category: 'Store openings', label: 'Store openings' },
-  { category: 'City events', label: 'City celebrations' },
+  {
+    category: 'Concerts',
+    label: 'Concerts & tours',
+    description: 'Synchronized LED drone formations floating above live music crowds, displaying real-time song lyrics, artist logos, and dynamic light effects synced perfectly to performance beats.',
+  },
+  {
+    category: 'Sports',
+    label: 'Sports events',
+    description: 'Sky-high aerial scoreboards, team crests, and sponsor reveals dominating stadium and arena skylines during major tournaments and championship matches.',
+  },
+  {
+    category: 'Festivals',
+    label: 'Festivals',
+    description: 'Vivid animated drone LED light shows illuminating night festival skies, creating captivating visual spectacles visible across massive venue grounds.',
+  },
+  {
+    category: 'Brand launches',
+    label: 'Brand launches',
+    description: 'Unmissable 3D aerial product reveals and floating illuminated brand logos engineered to generate massive audience excitement and viral social media coverage.',
+  },
+  {
+    category: 'Real estate',
+    label: 'Real-estate promotions',
+    description: 'Highlighting luxury residential towers, sky villa dimensions, and developer branding directly over project construction sites and launch venues.',
+  },
+  {
+    category: 'Corporate',
+    label: 'Corporate events',
+    description: 'Sophisticated aerial brand storytelling, leadership messages, and illuminated annual theme formations for high-profile galas and corporate summits.',
+  },
+  {
+    category: 'Store openings',
+    label: 'Store openings',
+    description: 'Attracting venue crowds from miles away with vibrant floating directional arrows, grand opening countdowns, and promotional offers glowing overhead.',
+  },
+  {
+    category: 'City events',
+    label: 'City celebrations',
+    description: 'Massive civic drone light displays for national holidays, new year countdowns, and cultural festivals for tens of thousands of spectators.',
+  },
 ];
 
 export const stats = [
-  { value: '100+', label: 'Campaigns flown' },
-  { value: '50+', label: 'Brands served' },
-  { value: '10+', label: 'Cities active' },
+  { value: '20+', label: 'Campaigns flown' },
+  { value: '15+', label: 'Brands served' },
+  { value: '20+', label: 'Cities active' },
   { value: '∞', label: 'Ways to be seen' },
 ];
 

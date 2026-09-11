@@ -9,6 +9,7 @@ export default function Services() {
 
   const [servicesList, setServicesList] = useState<ServiceItem[]>(getCMSServices());
   const [pricingList, setPricingList] = useState<PricingItem[]>(getCMSPricing());
+  const [selectedPricing, setSelectedPricing] = useState<PricingItem | null>(null);
 
   // Listen for CMS updates from Admin Page
   useEffect(() => {
@@ -19,6 +20,16 @@ export default function Services() {
     window.addEventListener('c2a_cms_updated', handleUpdate);
     return () => window.removeEventListener('c2a_cms_updated', handleUpdate);
   }, []);
+
+  // Lock body scroll when pricing modal is active
+  useEffect(() => {
+    if (selectedPricing) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [selectedPricing]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -76,7 +87,8 @@ export default function Services() {
               {pricingList.map((pkg, idx) => (
                 <div
                   key={pkg.id || pkg.step}
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-500/30 bg-gradient-to-b from-white/[0.08] to-white/[0.02] p-5 backdrop-blur-xl transition-all duration-500 hover:border-pink-400 hover:bg-white/[0.1] hover:shadow-[0_0_30px_rgba(255,77,109,0.3)] hover:-translate-y-1"
+                  onClick={() => setSelectedPricing(pkg)}
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-500/30 bg-gradient-to-b from-white/[0.08] to-white/[0.02] p-5 backdrop-blur-xl transition-all duration-500 hover:border-pink-400 hover:bg-white/[0.1] hover:shadow-[0_0_30px_rgba(255,77,109,0.3)] hover:-translate-y-1 cursor-pointer"
                 >
                   <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-rose-500 opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-40" />
                   
@@ -101,14 +113,16 @@ export default function Services() {
                       <span className="font-mono text-xs font-extrabold tracking-wider">{pkg.duration}</span>
                     </div>
 
-                    <p className="mt-3 text-xs font-medium text-white/80 leading-relaxed">
+                    <p className="mt-3 text-xs font-medium text-white/80 leading-relaxed line-clamp-3">
                       {pkg.description}
                     </p>
                   </div>
 
                   <div className="mt-5 border-t border-white/15 pt-3 flex items-center justify-between">
                     <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-white/70">{pkg.timeline}</span>
-                    <span className="text-xs font-bold text-pink-400 transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+                    <span className="font-mono text-[10px] font-bold text-pink-300 flex items-center gap-1 group-hover:text-white transition-colors">
+                      Details <span className="text-xs transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </span>
                   </div>
                 </div>
               ))}
@@ -166,6 +180,114 @@ export default function Services() {
           </div>
         ))}
       </div>
+
+      {/* POPUP MODAL FOR PRICING CARD DETAILS */}
+      {selectedPricing && (
+        <div
+          className="fixed inset-0 z-[140] bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+          onClick={() => setSelectedPricing(null)}
+        >
+          <div
+            className="relative w-full max-w-lg bg-[#16060c] border border-rose-500/40 rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(255,42,85,0.35)] animate-fadeIn overflow-y-auto max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedPricing(null)}
+              className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition text-sm"
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
+
+            {/* Modal Header */}
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-pink-300 bg-pink-500/20 border border-pink-400/30 px-3 py-1 rounded-full">
+                {selectedPricing.badge || 'Flight Package'}
+              </span>
+              <span className="font-mono text-xs font-semibold text-white/60">
+                {selectedPricing.timeline}
+              </span>
+            </div>
+
+            <h3 className="font-display text-2xl sm:text-3xl font-black uppercase text-white mt-1">
+              {selectedPricing.step}
+            </h3>
+
+            <div className="mt-2 flex items-baseline gap-3">
+              <span className="font-display text-4xl font-black text-pink-300 text-glow">
+                {selectedPricing.price}
+              </span>
+              <span className="font-mono text-xs font-bold text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-full border border-rose-500/30 flex items-center gap-1">
+                <ClockIcon className="h-3.5 w-3.5" />
+                {selectedPricing.duration} total duration
+              </span>
+            </div>
+
+            {/* LED Screen Size Spec & Flight Specs */}
+            <div className="mt-6 space-y-3 bg-white/5 border border-pink-500/25 rounded-2xl p-4">
+              <div className="flex items-center gap-3">
+                <span className="text-xl">📐</span>
+                <div>
+                  <span className="block text-[10px] font-mono font-bold uppercase text-pink-300">LED Screen Display Height / Size</span>
+                  <span className="text-sm font-extrabold text-white">12 × 6 FT High-Brightness LED Screen Array</span>
+                </div>
+              </div>
+
+              <div className="h-px w-full bg-white/10" />
+
+              <div className="flex items-center gap-3">
+                <span className="text-xl">🚁</span>
+                <div>
+                  <span className="block text-[10px] font-mono font-bold uppercase text-pink-300">Flight Altitude & Range</span>
+                  <span className="text-xs font-bold text-white/90">Up to 120 FT operating height over venue crowd</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Detailed Description */}
+            <div className="mt-5">
+              <h4 className="font-mono text-xs font-bold uppercase text-pink-300 mb-1.5">Package Details & Scope</h4>
+              <p className="text-xs text-white/90 leading-relaxed font-medium">
+                {selectedPricing.description}
+              </p>
+              <ul className="mt-3 space-y-2 text-xs text-white/80">
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-400 font-bold">✓</span> Synchronized LED display grid rendering brand graphics
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-400 font-bold">✓</span> On-site certified pilot & flight safety operations crew
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-400 font-bold">✓</span> Complete airspace flight clearances & venue coordination
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-400 font-bold">✓</span> Weather monitoring & redundant failsafe safety systems
+                </li>
+              </ul>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center gap-3">
+              <a
+                href={`https://wa.me/919035999272?text=Hi%20Connect2Air%20team!%20I%20am%20interested%20in%20booking%20the%20${encodeURIComponent(selectedPricing.step)}%20package%20(${selectedPricing.price}).%20Please%20share%20availability.`}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:flex-1 py-3 bg-pink-500 hover:bg-pink-400 text-white font-bold text-xs rounded-xl shadow-[0_0_20px_rgba(255,20,147,0.4)] text-center transition"
+              >
+                Book Package via WhatsApp →
+              </a>
+              <button
+                onClick={() => setSelectedPricing(null)}
+                className="w-full sm:w-auto px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-bold text-xs rounded-xl transition"
+              >
+                Close
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </section>
   );
 }

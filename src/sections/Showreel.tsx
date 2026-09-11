@@ -146,7 +146,7 @@ export default function Showreel() {
   const extraCount = Math.max(0, mediaList.length - 3);
 
   return (
-    <section id="showreel" className="relative bg-[var(--color-void)] py-10 sm:py-14 scroll-mt-24">
+    <section id="showreel" className="relative bg-[var(--color-void)] pt-8 pb-3 sm:pt-10 sm:pb-4 scroll-mt-24">
       <div ref={ref} className="container-page">
 
         {/* ── Header ── */}
