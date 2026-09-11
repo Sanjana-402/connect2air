@@ -13,12 +13,12 @@
   --color-line: #3d1420;
 
   --color-ink: #ffffff;
-  --color-ink-dim: #f3d5dd;
-  --color-ink-faint: #d49ba8;
+  --color-ink-dim: #f8d7e6;
+  --color-ink-faint: #e699c2;
 
-  --color-signal: #ff2a55;
-  --color-signal-2: #ff4d6d;
-  --color-signal-soft: rgba(255, 42, 85, 0.25);
+  --color-signal: #e6007e;
+  --color-signal-2: #ff1493;
+  --color-signal-soft: rgba(230, 0, 126, 0.28);
 }
 
 :root {
