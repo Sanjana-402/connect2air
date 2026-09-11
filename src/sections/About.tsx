@@ -5,7 +5,7 @@ export default function About() {
   const ref = useScrollReveal<HTMLDivElement>({ stagger: 0.08 });
 
   return (
-    <section id="about" className="relative bg-[var(--color-void)] py-10 sm:py-14 border-t border-pink-500/20">
+    <section id="about" className="relative bg-[var(--color-void)] py-10 sm:py-14 border-t border-pink-500/20 scroll-mt-20">
       <div className="container-page">
         <div ref={ref} className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
           {/* Left Column: Headline & Parent Company Venture Callout */}

@@ -56,7 +56,7 @@ export default function Statement() {
   }, []);
 
   return (
-    <div id="about" ref={wrapRef} className="relative h-[100svh] overflow-hidden bg-[var(--color-void)]">
+    <div ref={wrapRef} className="relative h-[100svh] overflow-hidden bg-[var(--color-void)]">
       <PixelField progressRef={progressRef} className="absolute inset-0 h-full w-full opacity-70" />
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">

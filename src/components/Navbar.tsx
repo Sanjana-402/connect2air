@@ -75,6 +75,16 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => {
+                  if (link.href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(link.href);
+                    if (target) {
+                      target.scrollIntoView({ behavior: 'smooth' });
+                      window.history.pushState(null, '', link.href);
+                    }
+                  }
+                }}
                 data-cursor="hover"
                 className={`group relative py-2 font-mono text-[12px] font-bold uppercase tracking-[0.16em] transition-colors ${
                   active === link.href ? 'text-pink-300 text-glow' : 'text-white/90 hover:text-pink-300'
@@ -115,7 +125,17 @@ export default function Navbar() {
           <a
             key={link.href}
             href={link.href}
-            onClick={() => setOpen(false)}
+            onClick={(e) => {
+              setOpen(false);
+              if (link.href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(link.href);
+                if (target) {
+                  target.scrollIntoView({ behavior: 'smooth' });
+                  window.history.pushState(null, '', link.href);
+                }
+              }
+            }}
             className="font-display text-4xl font-semibold text-white"
           >
             {link.label}
