@@ -31,6 +31,19 @@ export interface EnquiryItem {
   status?: 'new' | 'reviewed';
 }
 
+export interface MediaItem {
+  id: string;
+  _id?: string; // MongoDB ObjectId (returned from API)
+  title: string;
+  tagline?: string;
+  description?: string;
+  type: 'video' | 'image';
+  url: string;
+  aspectRatio: 'portrait';
+  size: 'reel' | 'post' | 'square'; // reel=9:16, post=4:5, square=1:1
+  createdAt: string;
+}
+
 const STORAGE_KEYS = {
   SERVICES: 'c2a_cms_services',
   PRICING: 'c2a_cms_pricing',
@@ -72,6 +85,96 @@ const notifyCMSUpdate = () => {
   window.dispatchEvent(new Event('c2a_cms_updated'));
 };
 
+// API base — uses Vite dev proxy (/api → localhost:5000). Set VITE_API_URL for production.
+const API_BASE = (import.meta as any).env?.VITE_API_URL || '';
+
+// Normalise a raw API response item to MediaItem shape
+function normaliseMedia(raw: any): MediaItem {
+  return {
+    id: raw._id || raw.id,
+    _id: raw._id,
+    title: raw.title,
+    tagline: raw.tagline || '',
+    description: raw.description || '',
+    type: raw.type,
+    url: raw.url,
+    aspectRatio: 'portrait',
+    size: raw.size || 'reel', // default to reel if missing
+    createdAt: raw.createdAt || new Date().toISOString(),
+  };
+}
+
+// GET all media from backend
+export async function getCMSMediaAsync(): Promise<MediaItem[]> {
+  try {
+    const res = await fetch(`${API_BASE}/api/media`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (json.success && Array.isArray(json.data)) {
+      return json.data.map(normaliseMedia);
+    }
+    return [];
+  } catch (err) {
+    console.warn('getCMSMediaAsync failed, returning empty list:', err);
+    return [];
+  }
+}
+
+// POST — upload file (FormData) or save URL-only entry
+export async function uploadCMSMedia(formData: FormData): Promise<MediaItem | null> {
+  try {
+    const res = await fetch(`${API_BASE}/api/media`, {
+      method: 'POST',
+      body: formData, // multipart/form-data — do NOT set Content-Type manually
+    });
+    const json = await res.json();
+    if (!res.ok || !json.success) throw new Error(json.message || 'Upload failed');
+    notifyCMSUpdate();
+    return normaliseMedia(json.data);
+  } catch (err) {
+    console.error('uploadCMSMedia failed:', err);
+    throw err;
+  }
+}
+
+// PATCH — update metadata (title, tagline, description) only
+export async function updateCMSMediaMeta(
+  id: string,
+  data: Partial<Pick<MediaItem, 'title' | 'tagline' | 'description'>>
+): Promise<MediaItem | null> {
+  try {
+    const res = await fetch(`${API_BASE}/api/media/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+    if (!res.ok || !json.success) throw new Error(json.message || 'Update failed');
+    notifyCMSUpdate();
+    return normaliseMedia(json.data);
+  } catch (err) {
+    console.error('updateCMSMediaMeta failed:', err);
+    throw err;
+  }
+}
+
+// DELETE — remove from Cloudinary + MongoDB
+export async function deleteCMSMediaItem(id: string): Promise<void> {
+  try {
+    const res = await fetch(`${API_BASE}/api/media/${id}`, { method: 'DELETE' });
+    const json = await res.json();
+    if (!res.ok || !json.success) throw new Error(json.message || 'Delete failed');
+    notifyCMSUpdate();
+  } catch (err) {
+    console.error('deleteCMSMediaItem failed:', err);
+    throw err;
+  }
+}
+
+// Legacy sync compat shim (returns empty — all reads are now async)
+export const getCMSMedia = (): MediaItem[] => [];
+
+
 // SERVICES CRUD
 export const getCMSServices = (): ServiceItem[] => {
   try {
@@ -83,7 +186,6 @@ export const getCMSServices = (): ServiceItem[] => {
   } catch (e) {
     console.error('Error reading services from storage', e);
   }
-  // Default to siteData services with generated IDs
   const initial = defaultServices.map((s, idx) => ({
     id: `srv_${idx + 1}`,
     number: s.number,
@@ -123,7 +225,6 @@ export const updateCMSService = (id: string, serviceData: Partial<ServiceItem>) 
 export const deleteCMSService = (id: string) => {
   const list = getCMSServices();
   const filtered = list.filter((item) => item.id !== id);
-  // Re-index numbers
   const reindexed = filtered.map((item, idx) => ({
     ...item,
     number: String(idx + 1).padStart(2, '0'),
@@ -197,7 +298,6 @@ export const saveCMSEnquiry = (enquiry: Omit<EnquiryItem, 'id' | 'createdAt'>, c
   const list = getCMSEnquiries();
   const targetId = customId || `enq_${Date.now()}`;
   
-  // Avoid saving exact duplicate if ID already present
   if (list.some((item) => item.id === targetId)) {
     return list.find((item) => item.id === targetId)!;
   }
@@ -221,3 +321,5 @@ export const deleteCMSEnquiry = (id: string) => {
   notifyCMSUpdate();
   return filtered;
 };
+
+

@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import contactRoutes from './routes/contactRoutes.js';
+import mediaRoutes from './routes/mediaRoutes.js';
 
 const app = express();
 const port = Number(process.env.PORT) || 5000;
@@ -24,6 +25,7 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/api/contact', contactRoutes);
+app.use('/api/media', mediaRoutes);
 app.use((_req, res) => res.status(404).json({ message: 'Route not found.' }));
 app.use((error, _req, res, _next) => {
   console.error(error);

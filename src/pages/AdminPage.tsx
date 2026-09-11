@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   getCMSEnquiries,
   deleteCMSEnquiry,
@@ -10,9 +10,14 @@ import {
   addCMSPricing,
   updateCMSPricing,
   deleteCMSPricing,
+  getCMSMediaAsync,
+  uploadCMSMedia,
+  updateCMSMediaMeta,
+  deleteCMSMediaItem,
   type EnquiryItem,
   type ServiceItem,
   type PricingItem,
+  type MediaItem,
 } from '@/utils/cmsStorage';
 import { brand } from '@/data/siteData';
 
@@ -20,11 +25,35 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState(false);
-  const [activeTab, setActiveTab] = useState<'enquiries' | 'services' | 'pricing'>('enquiries');
+  const [activeTab, setActiveTab] = useState<'enquiries' | 'media' | 'services' | 'pricing'>('enquiries');
 
   // Enquiries state
   const [enquiries, setEnquiries] = useState<EnquiryItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Media Reel state
+  const [mediaList, setMediaList] = useState<MediaItem[]>([]);
+  const [editingMedia, setEditingMedia] = useState<MediaItem | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [mediaForm, setMediaForm] = useState<{
+    title: string;
+    tagline: string;
+    description: string;
+    type: 'video' | 'image';
+    url: string;
+    aspectRatio: 'portrait';
+    size: 'reel' | 'post' | 'square';
+  }>({
+    title: '',
+    tagline: '',
+    description: '',
+    type: 'video',
+    url: '',
+    aspectRatio: 'portrait',
+    size: 'reel',
+  });
 
   // Services state
   const [services, setServices] = useState<ServiceItem[]>([]);
@@ -57,7 +86,7 @@ export default function AdminPage() {
     let combinedList: EnquiryItem[] = [];
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/contact`);
       if (res.ok) {
         const json = await res.json();
         if (json.data && Array.isArray(json.data) && json.data.length > 0) {
@@ -106,6 +135,112 @@ export default function AdminPage() {
 
     // 3. Pricing
     setPricing(getCMSPricing());
+
+    // 4. Media Reel (Async IndexedDB)
+    const mediaItems = await getCMSMediaAsync();
+    setMediaList(mediaItems);
+  };
+
+  const handleMediaSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!mediaForm.title) {
+      alert('Please fill in the title.');
+      return;
+    }
+    if (!selectedFile && !mediaForm.url && !editingMedia) {
+      alert('Please upload a media file or enter a direct URL.');
+      return;
+    }
+
+    try {
+      if (editingMedia) {
+        setUploadProgress('Saving changes...');
+        await updateCMSMediaMeta(editingMedia.id, {
+          title: mediaForm.title,
+          tagline: mediaForm.tagline,
+          description: mediaForm.description,
+        });
+        showToast('Media details updated.');
+      } else {
+        const formData = new FormData();
+        formData.append('title', mediaForm.title);
+        formData.append('tagline', mediaForm.tagline);
+        formData.append('description', mediaForm.description);
+        formData.append('type', mediaForm.type);
+        formData.append('size', mediaForm.size);
+
+        if (selectedFile) {
+          setUploadProgress(`Uploading "${selectedFile.name}" to Cloudinary...`);
+          formData.append('file', selectedFile);
+        } else {
+          formData.append('url', mediaForm.url);
+        }
+
+        await uploadCMSMedia(formData);
+        showToast('Media uploaded & added to reel ✓');
+      }
+
+      setMediaForm({ title: '', tagline: '', description: '', type: 'video', url: '', aspectRatio: 'portrait', size: 'reel' });
+      setSelectedFile(null);
+      setEditingMedia(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      setTimeout(() => refreshData(), 300);
+    } catch (err: any) {
+      alert(`Upload failed: ${err?.message || 'Unknown error. Is the backend running?'}`);
+    } finally {
+      setUploadProgress(null);
+    }
+  };
+
+  const handleEditMedia = (item: MediaItem) => {
+    setEditingMedia(item);
+    setSelectedFile(null);
+    setMediaForm({
+      title: item.title,
+      tagline: item.tagline || '',
+      description: item.description || '',
+      type: item.type,
+      url: item.url,
+      aspectRatio: 'portrait',
+      size: item.size || 'reel',
+    });
+  };
+
+  const handleDeleteMedia = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this media item? This will also remove it from Cloudinary.')) return;
+    try {
+      await deleteCMSMediaItem(id);
+      refreshData();
+      showToast('Media item deleted from Cloudinary & database.');
+    } catch (err: any) {
+      alert(`Delete failed: ${err?.message || 'Unknown error.'}`);
+    }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 200 * 1024 * 1024) {
+      alert('File size is too large (max 200MB).');
+      e.target.value = '';
+      return;
+    }
+
+    const isVideo = file.type.startsWith('video/');
+    const isImage = file.type.startsWith('image/');
+    if (!isVideo && !isImage) {
+      alert('Please select a valid video or image file.');
+      e.target.value = '';
+      return;
+    }
+
+    setSelectedFile(file);
+    setMediaForm((prev) => ({
+      ...prev,
+      url: '', // clear direct URL if file is chosen
+      type: isVideo ? 'video' : 'image',
+    }));
   };
 
   useEffect(() => {
@@ -133,7 +268,7 @@ export default function AdminPage() {
     if (!confirm('Are you sure you want to delete this enquiry record?')) return;
     deleteCMSEnquiry(id);
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact/${id}`, { method: 'DELETE' });
+      await fetch(`${import.meta.env.VITE_API_URL || ''}/api/contact/${id}`, { method: 'DELETE' });
     } catch (e) {
       // local delete handled
     }
@@ -339,10 +474,22 @@ export default function AdminPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab('media')}
+              className={`px-5 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 ${
+                activeTab === 'media'
+                  ? 'bg-pink-500 text-white shadow-[0_0_20px_rgba(255,20,147,0.4)]'
+                  : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
+              }`}
+            >
+              <span>🎬 Featured Media Reel</span>
+              <span className="bg-black/30 px-2 py-0.5 rounded-full text-[10px]">{mediaList.length}</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('services')}
               className={`px-5 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 ${
                 activeTab === 'services'
-                  ? 'bg-cyan-500 text-black shadow-[0_0_20px_rgba(0,229,255,0.4)]'
+                  ? 'bg-pink-500 text-white shadow-[0_0_20px_rgba(255,20,147,0.4)]'
                   : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
               }`}
             >
@@ -354,7 +501,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('pricing')}
               className={`px-5 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 ${
                 activeTab === 'pricing'
-                  ? 'bg-cyan-500 text-black shadow-[0_0_20px_rgba(0,229,255,0.4)]'
+                  ? 'bg-pink-500 text-white shadow-[0_0_20px_rgba(255,20,147,0.4)]'
                   : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
               }`}
             >
@@ -455,6 +602,246 @@ export default function AdminPage() {
                 </table>
               </div>
             )}
+          </div>
+        )}
+
+        {/* TAB: FEATURED MEDIA REEL MANAGEMENT */}
+        {activeTab === 'media' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Form Column */}
+            <div className="lg:col-span-5 bg-[#16060c] p-6 rounded-2xl border border-pink-500/30 space-y-5 h-fit">
+              <div className="border-b border-white/10 pb-4">
+                <span className="eyebrow text-pink-300 font-bold uppercase text-xs">Featured Reel Manager</span>
+                <h3 className="text-xl font-extrabold uppercase text-white mt-1">
+                  {editingMedia ? 'Edit Media Details' : 'Upload / Add New Media'}
+                </h3>
+                <p className="text-xs text-white/70 mt-1">
+                  Upload videos or images for the "Watch the sky move" featured media section. First 3 media items will display directly on the website, with a "View More" popup modal for additional files.
+                </p>
+              </div>
+
+              <form onSubmit={handleMediaSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-pink-200 mb-1">Media Title / Heading *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Symphony Aerial Light Display"
+                    value={mediaForm.title}
+                    onChange={(e) => setMediaForm({ ...mediaForm, title: e.target.value })}
+                    className="w-full bg-white/5 border border-pink-500/30 rounded-xl px-3.5 py-2.5 text-white text-sm focus:outline-none focus:border-pink-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-pink-200 mb-1">Tagline / Subheading</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 500 Drone Fleet Light Show"
+                    value={mediaForm.tagline}
+                    onChange={(e) => setMediaForm({ ...mediaForm, tagline: e.target.value })}
+                    className="w-full bg-white/5 border border-pink-500/30 rounded-xl px-3.5 py-2.5 text-white text-sm focus:outline-none focus:border-pink-400"
+                  />
+                </div>
+
+                {/* Media Type */}
+                <div>
+                  <label className="block text-xs font-semibold text-pink-200 mb-1">Media Type</label>
+                  <select
+                    value={mediaForm.type}
+                    onChange={(e) => setMediaForm({ ...mediaForm, type: e.target.value as 'video' | 'image' })}
+                    className="w-full bg-[#1e0711] border border-pink-500/30 rounded-xl px-3.5 py-2.5 text-white text-sm focus:outline-none focus:border-pink-400"
+                  >
+                    <option value="video">🎥 Video (MP4 / WebM)</option>
+                    <option value="image">🖼️ Photo / Image (JPG / PNG / WebP)</option>
+                  </select>
+                </div>
+
+                {/* Instagram Size Selector */}
+                {!editingMedia && (
+                  <div>
+                    <label className="block text-xs font-semibold text-pink-200 mb-2">
+                      Instagram Format / Size *
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { key: 'reel', label: 'Reel', icon: '📱', ratio: '9 : 16', dims: '1080 × 1920 px', desc: 'Instagram Reels & Stories' },
+                        { key: 'post', label: 'Post', icon: '🖼️', ratio: '4 : 5', dims: '1080 × 1350 px', desc: 'Portrait Post (best reach)' },
+                        { key: 'square', label: 'Square', icon: '⬜', ratio: '1 : 1', dims: '1080 × 1080 px', desc: 'Classic Square Post' },
+                      ].map(({ key, label, icon, ratio, dims, desc }) => (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => setMediaForm({ ...mediaForm, size: key as 'reel' | 'post' | 'square' })}
+                          className={`flex flex-col items-center gap-1 p-2.5 rounded-xl border text-center transition ${
+                            mediaForm.size === key
+                              ? 'bg-pink-500/20 border-pink-400 text-white'
+                              : 'bg-white/5 border-white/10 text-white/60 hover:border-pink-500/40 hover:bg-pink-500/5'
+                          }`}
+                        >
+                          <span className="text-lg">{icon}</span>
+                          <span className="font-bold text-xs">{label}</span>
+                          <span className={`font-mono text-[10px] font-bold ${mediaForm.size === key ? 'text-pink-300' : 'text-white/40'}`}>{ratio}</span>
+                          <span className={`text-[9px] ${mediaForm.size === key ? 'text-pink-200/70' : 'text-white/30'}`}>{dims}</span>
+                          <span className={`text-[9px] leading-tight text-center ${mediaForm.size === key ? 'text-white/70' : 'text-white/25'}`}>{desc}</span>
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-[10px] text-white/40 mt-1.5">
+                      ℹ️ Crop your file to the correct ratio before uploading for best results.
+                    </p>
+                  </div>
+                )}
+
+                {/* File Upload */}
+                <div>
+                  <label className="block text-xs font-semibold text-pink-200 mb-1">Media File Upload / URL *</label>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="video/*,image/*"
+                    onChange={handleFileUpload}
+                    className="w-full bg-white/5 border border-pink-500/30 rounded-xl px-3.5 py-2 text-xs text-white/80 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-pink-500 file:text-white hover:file:bg-pink-400"
+                  />
+                  {selectedFile && (
+                    <div className="mt-1.5 flex items-center gap-2 text-[10px] text-emerald-400 font-mono">
+                      <span>✓</span>
+                      <span className="truncate">{selectedFile.name} ({(selectedFile.size / 1024 / 1024).toFixed(1)} MB)</span>
+                      <button type="button" onClick={() => { setSelectedFile(null); if (fileInputRef.current) fileInputRef.current.value = ''; }} className="text-red-400 hover:text-red-300 ml-auto">✕</button>
+                    </div>
+                  )}
+                  {!editingMedia && (
+                    <>
+                      <div className="text-center text-xs text-white/40 my-1">- OR enter direct URL -</div>
+                      <input
+                        type="text"
+                        placeholder="https://res.cloudinary.com/... or https://.../video.mp4"
+                        value={mediaForm.url}
+                        onChange={(e) => { setMediaForm({ ...mediaForm, url: e.target.value }); setSelectedFile(null); }}
+                        className="w-full bg-white/5 border border-pink-500/30 rounded-xl px-3.5 py-2 text-white text-xs focus:outline-none focus:border-pink-400"
+                      />
+                    </>
+                  )}
+                  {editingMedia && (
+                    <p className="text-[10px] text-white/50 mt-1.5">⚠️ Editing only updates title, tagline & description. To replace the file, delete this item and upload a new one.</p>
+                  )}
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block text-xs font-semibold text-pink-200 mb-1">Description / Details</label>
+                  <textarea
+                    rows={3}
+                    placeholder="Short description of the aerial performance or display..."
+                    value={mediaForm.description}
+                    onChange={(e) => setMediaForm({ ...mediaForm, description: e.target.value })}
+                    className="w-full bg-white/5 border border-pink-500/30 rounded-xl px-3.5 py-2 text-white text-sm focus:outline-none focus:border-pink-400 resize-none"
+                  />
+                </div>
+
+                {uploadProgress && (
+                  <div className="flex items-center gap-2 text-xs text-pink-300 bg-pink-500/10 border border-pink-500/30 rounded-xl px-4 py-3 animate-pulse">
+                    <span>⏳</span>
+                    <span>{uploadProgress}</span>
+                  </div>
+                )}
+
+                <div className="pt-2 flex items-center gap-3">
+                  <button
+                    type="submit"
+                    disabled={!!uploadProgress}
+                    className="flex-1 px-5 py-3 bg-pink-500 hover:bg-pink-400 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm rounded-xl shadow-[0_0_20px_rgba(255,20,147,0.4)] transition"
+                  >
+                    {uploadProgress ? 'Uploading...' : editingMedia ? 'Update Media' : 'Upload & Add to Reel ↑'}
+                  </button>
+                  {editingMedia && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingMedia(null);
+                        setSelectedFile(null);
+                        setMediaForm({ title: '', tagline: '', description: '', type: 'video', url: '', aspectRatio: 'portrait', size: 'reel' });
+                        if (fileInputRef.current) fileInputRef.current.value = '';
+                      }}
+                      className="px-4 py-3 bg-white/10 text-white rounded-xl text-xs font-bold hover:bg-white/20 transition"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+
+            {/* List Column */}
+            <div className="lg:col-span-7 space-y-4">
+              <h3 className="text-lg font-bold text-white uppercase tracking-wider flex items-center justify-between">
+                <span>Current Media Items ({mediaList.length})</span>
+                <span className="text-xs text-pink-300 font-normal">First 3 items display on main homepage</span>
+              </h3>
+
+              {mediaList.length === 0 ? (
+                <div className="text-center py-16 bg-[#16060c] rounded-2xl border border-white/10">
+                  <div className="text-4xl mb-3">🎬</div>
+                  <h4 className="text-lg font-bold text-white">No Media Uploaded Yet</h4>
+                  <p className="text-xs text-white/60 mt-1 max-w-sm mx-auto">
+                    When no media items are uploaded, the website will display a crisp fallback content card with heading & tagline.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {mediaList.map((item, idx) => (
+                    <div
+                      key={item.id}
+                      className="bg-[#16060c] border border-rose-500/30 hover:border-pink-400 p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition"
+                    >
+                      <div className="flex items-center gap-4 w-full sm:w-auto">
+                        <div className="w-20 h-14 bg-black/60 rounded-lg overflow-hidden border border-white/20 flex items-center justify-center shrink-0 relative">
+                          {item.type === 'video' ? (
+                            <video src={item.url} className="w-full h-full object-cover" />
+                          ) : (
+                            <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
+                          )}
+                          <span className="absolute bottom-1 right-1 text-[9px] bg-black/80 px-1 rounded text-pink-300 font-mono">
+                            {item.size === 'reel' ? '9:16' : item.size === 'post' ? '4:5' : '1:1'}
+                          </span>
+                        </div>
+
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-mono font-bold text-pink-400">#{idx + 1}</span>
+                            <span className="text-xs font-mono px-2 py-0.5 rounded bg-pink-500/20 text-pink-300 uppercase">
+                              {item.type}
+                            </span>
+                            {idx < 3 && (
+                              <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
+                                Live on Home
+                              </span>
+                            )}
+                          </div>
+                          <h4 className="text-base font-bold text-white mt-1">{item.title}</h4>
+                          {item.tagline && <p className="text-xs text-white/70">{item.tagline}</p>}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 self-end sm:self-center">
+                        <button
+                          onClick={() => handleEditMedia(item)}
+                          className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-mono font-bold transition"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteMedia(item.id)}
+                          className="px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40 rounded-lg text-xs font-mono font-bold transition"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
 
