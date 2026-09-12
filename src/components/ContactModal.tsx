@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { contact } from '@/data/siteData';
 import { saveCMSEnquiry } from '@/utils/cmsStorage';
+import { getApiBaseUrl } from '@/utils/apiBase';
 
 export const ContactModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,7 @@ export const ContactModal: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const apiBase = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
+    const apiBase = getApiBaseUrl();
     const payload = {
       name: formData.name.trim(),
       email: formData.email.trim() || 'N/A',

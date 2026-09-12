@@ -32,6 +32,20 @@ Type-checks with `tsc -b` and outputs an optimized build to `dist/`.
 npm run preview
 ```
 
+## API URL Configuration (Avoid /api/api)
+
+Frontend calls are built as `${base}/api/...`.
+
+- Preferred production value: `VITE_API_URL=` (empty, same-origin).
+- If someone sets `VITE_API_URL=/api`, the app now normalizes it and still
+  calls `/api/...` correctly.
+
+After deploy, verify no localhost fallback is baked into assets:
+
+```bash
+grep -Rni "localhost:5000" dist
+```
+
 ## 5. Replace the logo
 
 Drop your files in and they're picked up automatically — no code changes:

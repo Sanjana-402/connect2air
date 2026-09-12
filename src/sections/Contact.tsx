@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { contact } from '@/data/siteData';
 import { MailIcon, PhoneIcon, WhatsAppIcon, SocialIcon } from '@/components/Icons';
 import { saveCMSEnquiry } from '@/utils/cmsStorage';
+import { getApiBaseUrl } from '@/utils/apiBase';
 
 const fields = [
   { name: 'name', label: 'Your name', type: 'text', placeholder: 'Jane Smith' },
@@ -16,7 +17,7 @@ export default function Contact() {
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatus('sending');
-    const apiBase = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
+    const apiBase = getApiBaseUrl();
 
     const form = event.currentTarget;
     const values = Object.fromEntries(new FormData(form)) as any;

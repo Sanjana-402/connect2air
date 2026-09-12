@@ -19,9 +19,11 @@ import {
   type PricingItem,
   type MediaItem,
 } from '@/utils/cmsStorage';
+import { getApiBaseUrl } from '@/utils/apiBase';
 import { brand } from '@/data/siteData';
 
 export default function AdminPage() {
+  const apiBase = getApiBaseUrl();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState(false);
@@ -95,7 +97,7 @@ export default function AdminPage() {
     let combinedList: EnquiryItem[] = [];
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/contact`);
+      const res = await fetch(`${apiBase}/api/contact`);
       if (res.ok) {
         const json = await res.json();
         if (json.data && Array.isArray(json.data) && json.data.length > 0) {
@@ -169,7 +171,7 @@ export default function AdminPage() {
     if (!confirm('Are you sure you want to delete this enquiry record?')) return;
     deleteCMSEnquiry(id);
     try {
-      fetch(`${import.meta.env.VITE_API_URL || ''}/api/contact/${id}`, { method: 'DELETE' });
+      fetch(`${apiBase}/api/contact/${id}`, { method: 'DELETE' });
     } catch (e) {}
     refreshData();
     showToast('Enquiry record deleted.');

@@ -1,4 +1,5 @@
 import { services as defaultServices } from '@/data/siteData';
+import { getApiBaseUrl } from '@/utils/apiBase';
 
 export interface ServiceItem {
   id: string;
@@ -88,7 +89,7 @@ const notifyCMSUpdate = () => {
 };
 
 // API base — uses Vite dev proxy (/api → http://127.0.0.1:5001). Set VITE_API_URL for production.
-const API_BASE = (import.meta as any).env?.VITE_API_URL || '';
+const API_BASE = getApiBaseUrl();
 
 // Safely parse JSON responses and throw clear error if server returned HTML
 async function parseJsonResponse(res: Response) {
