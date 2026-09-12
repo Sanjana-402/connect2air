@@ -31,6 +31,7 @@ export const ContactModal: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const apiBase = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
     const payload = {
       name: formData.name.trim(),
       email: formData.email.trim() || 'N/A',
@@ -43,7 +44,7 @@ export const ContactModal: React.FC = () => {
     // Send to backend API and trigger email notification
     let backendId = undefined;
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
+      const res = await fetch(`${apiBase}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

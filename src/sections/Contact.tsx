@@ -16,6 +16,7 @@ export default function Contact() {
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatus('sending');
+    const apiBase = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
 
     const form = event.currentTarget;
     const values = Object.fromEntries(new FormData(form)) as any;
@@ -30,7 +31,7 @@ export default function Contact() {
 
     let backendId = undefined;
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
+      const response = await fetch(`${apiBase}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
