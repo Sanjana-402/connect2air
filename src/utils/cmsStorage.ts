@@ -87,8 +87,17 @@ const notifyCMSUpdate = () => {
   window.dispatchEvent(new Event('c2a_cms_updated'));
 };
 
-// API base — uses Vite dev proxy (/api → localhost:5000). Set VITE_API_URL for production.
+// API base — uses Vite dev proxy (/api → http://127.0.0.1:5001). Set VITE_API_URL for production.
 const API_BASE = (import.meta as any).env?.VITE_API_URL || '';
+
+// Safely parse JSON responses and throw clear error if server returned HTML
+async function parseJsonResponse(res: Response) {
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    throw new Error(`Backend server unreachable or returned non-JSON (HTTP ${res.status}). Is backend running on http://127.0.0.1:5001?`);
+  }
+  return res.json();
+}
 
 // Normalise a raw API response item to MediaItem shape
 function normaliseMedia(raw: any): MediaItem {
@@ -111,7 +120,7 @@ export async function getCMSMediaAsync(): Promise<MediaItem[]> {
   try {
     const res = await fetch(`${API_BASE}/api/media`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
+    const json = await parseJsonResponse(res);
     if (json.success && Array.isArray(json.data)) {
       return json.data.map(normaliseMedia);
     }
@@ -129,7 +138,7 @@ export async function uploadCMSMedia(formData: FormData): Promise<MediaItem | nu
       method: 'POST',
       body: formData, // multipart/form-data — do NOT set Content-Type manually
     });
-    const json = await res.json();
+    const json = await parseJsonResponse(res);
     if (!res.ok || !json.success) throw new Error(json.message || 'Upload failed');
     notifyCMSUpdate();
     return normaliseMedia(json.data);
@@ -150,7 +159,7 @@ export async function updateCMSMediaMeta(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    const json = await res.json();
+    const json = await parseJsonResponse(res);
     if (!res.ok || !json.success) throw new Error(json.message || 'Update failed');
     notifyCMSUpdate();
     return normaliseMedia(json.data);
@@ -164,7 +173,7 @@ export async function updateCMSMediaMeta(
 export async function deleteCMSMediaItem(id: string): Promise<void> {
   try {
     const res = await fetch(`${API_BASE}/api/media/${id}`, { method: 'DELETE' });
-    const json = await res.json();
+    const json = await parseJsonResponse(res);
     if (!res.ok || !json.success) throw new Error(json.message || 'Delete failed');
     notifyCMSUpdate();
   } catch (err) {
@@ -182,7 +191,7 @@ export async function getCMSServicesAsync(): Promise<ServiceItem[]> {
   try {
     const res = await fetch(`${API_BASE}/api/services`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
+    const json = await parseJsonResponse(res);
     if (json.success && Array.isArray(json.data) && json.data.length > 0) {
       return json.data.map((raw: any) => ({
         id: raw._id || raw.id,
@@ -206,7 +215,7 @@ export async function addCMSServiceAsync(service: Omit<ServiceItem, 'id' | 'numb
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(service),
     });
-    const json = await res.json();
+    const json = await parseJsonResponse(res);
     if (res.ok && json.success) {
       notifyCMSUpdate();
       return { id: json.data._id, _id: json.data._id, ...json.data };
@@ -217,11 +226,12 @@ export async function addCMSServiceAsync(service: Omit<ServiceItem, 'id' | 'numb
 
 export async function updateCMSServiceAsync(id: string, serviceData: Partial<ServiceItem>): Promise<void> {
   try {
-    await fetch(`${API_BASE}/api/services/${id}`, {
+    const res = await fetch(`${API_BASE}/api/services/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(serviceData),
     });
+    await parseJsonResponse(res);
     notifyCMSUpdate();
   } catch (e) {
     updateCMSService(id, serviceData);
@@ -230,7 +240,8 @@ export async function updateCMSServiceAsync(id: string, serviceData: Partial<Ser
 
 export async function deleteCMSServiceAsync(id: string): Promise<void> {
   try {
-    await fetch(`${API_BASE}/api/services/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${API_BASE}/api/services/${id}`, { method: 'DELETE' });
+    await parseJsonResponse(res);
     notifyCMSUpdate();
   } catch (e) {
     deleteCMSService(id);
@@ -300,7 +311,7 @@ export async function getCMSPricingAsync(): Promise<PricingItem[]> {
   try {
     const res = await fetch(`${API_BASE}/api/pricing`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
+    const json = await parseJsonResponse(res);
     if (json.success && Array.isArray(json.data) && json.data.length > 0) {
       return json.data.map((raw: any) => ({
         id: raw._id || raw.id,
@@ -326,7 +337,7 @@ export async function addCMSPricingAsync(pkg: Omit<PricingItem, 'id'>): Promise<
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(pkg),
     });
-    const json = await res.json();
+    const json = await parseJsonResponse(res);
     if (res.ok && json.success) {
       notifyCMSUpdate();
       return { id: json.data._id, _id: json.data._id, ...json.data };
@@ -337,11 +348,12 @@ export async function addCMSPricingAsync(pkg: Omit<PricingItem, 'id'>): Promise<
 
 export async function updateCMSPricingAsync(id: string, pkgData: Partial<PricingItem>): Promise<void> {
   try {
-    await fetch(`${API_BASE}/api/pricing/${id}`, {
+    const res = await fetch(`${API_BASE}/api/pricing/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(pkgData),
     });
+    await parseJsonResponse(res);
     notifyCMSUpdate();
   } catch (e) {
     updateCMSPricing(id, pkgData);
@@ -350,7 +362,8 @@ export async function updateCMSPricingAsync(id: string, pkgData: Partial<Pricing
 
 export async function deleteCMSPricingAsync(id: string): Promise<void> {
   try {
-    await fetch(`${API_BASE}/api/pricing/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${API_BASE}/api/pricing/${id}`, { method: 'DELETE' });
+    await parseJsonResponse(res);
     notifyCMSUpdate();
   } catch (e) {
     deleteCMSPricing(id);
